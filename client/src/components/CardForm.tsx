@@ -14,6 +14,20 @@ import { useState, useEffect } from "react";
 import { z } from "zod";
 import useCardFormData from "@/hooks/useCardFormData";
 
+// Mapa de siglas para instituições com nomes longos
+const instituicoesSiglas: Record<string, string> = {
+  "Universidade de São Paulo (USP)": "USP", 
+  "Universidade Estadual de Campinas (UNICAMP)": "UNICAMP",
+  "Universidade Federal do Rio de Janeiro (UFRJ)": "UFRJ",
+  "Universidade Federal de Minas Gerais (UFMG)": "UFMG",
+  "Universidade de Brasília (UnB)": "UnB",
+  "Pontifícia Universidade Católica (PUC)": "PUC",
+  "Instituto Federal de Educação, Ciência e Tecnologia": "IFECT",
+  "Centro Universitário SENAC": "SENAC",
+  "Faculdade de Tecnologia do Estado (FATEC)": "FATEC",
+  "Escola Técnica Estadual (ETEC)": "ETEC",
+};
+
 // Estenda o schema para validar o formulário
 const formSchema = z.object({
   nome: z.string().min(5, "O nome completo deve ter no mínimo 5 caracteres"),
@@ -90,6 +104,8 @@ export default function CardForm({ onSuccessfulSubmit }: CardFormProps) {
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
   const [matricula, setMatricula] = useState<string>(generateRandomMatricula());
+  const [selectedInstituicao, setSelectedInstituicao] = useState<string>("Universidade de São Paulo (USP)");
+  const [displayInstituicao, setDisplayInstituicao] = useState<string>("USP");
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
@@ -174,9 +190,15 @@ export default function CardForm({ onSuccessfulSubmit }: CardFormProps) {
     }
     
     try {
+      // Para nomes de instituições longos, usar a sigla correspondente
+      const nomeInstituicao = values.instituicao;
+      const instituicaoParaExibir = instituicoesSiglas[nomeInstituicao] || nomeInstituicao;
+      
       // Enviar os dados como objeto JSON para facilitar a manipulação no servidor
       const jsonData = {
         ...values,
+        // Substituir o nome da instituição pela sigla correspondente, caso exista
+        instituicao: instituicaoParaExibir,
         fotoBase64: photoPreview // Sempre usar o preview como base64 que já foi convertido pelo FileReader
       };
       
@@ -310,7 +332,12 @@ export default function CardForm({ onSuccessfulSubmit }: CardFormProps) {
                   <FormItem className="transition-all duration-200 hover:translate-x-1">
                     <FormLabel className="text-sm font-medium">Instituição *</FormLabel>
                     <Select 
-                      onValueChange={field.onChange} 
+                      onValueChange={(value) => {
+                        field.onChange(value);
+                        setSelectedInstituicao(value);
+                        // Atualizar a exibição para usar a sigla se disponível
+                        setDisplayInstituicao(instituicoesSiglas[value] || value);
+                      }} 
                       defaultValue={field.value}
                     >
                       <FormControl>
@@ -332,6 +359,12 @@ export default function CardForm({ onSuccessfulSubmit }: CardFormProps) {
                       </SelectContent>
                     </Select>
                     <FormMessage className="text-xs" />
+                    <div className="mt-2 p-2 bg-accent/10 rounded-md">
+                      <p className="text-sm font-medium">Exibição no cartão:</p>
+                      <div className="bg-primary text-white text-center py-1 px-2 mt-1 rounded font-bold break-words hyphens-auto" style={{ maxWidth: '100%' }}>
+                        {displayInstituicao}
+                      </div>
+                    </div>
                   </FormItem>
                 )}
               />
