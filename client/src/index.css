@@ -179,4 +179,107 @@
   .glassmorphism {
     @apply bg-background/80 backdrop-blur-md border border-border/50;
   }
+  
+  /* Novos efeitos para a página de carteirinha */
+  .card-details-container {
+    @apply relative overflow-hidden;
+  }
+  
+  .card-details-container::before {
+    content: '';
+    position: absolute;
+    width: 300px;
+    height: 300px;
+    background: radial-gradient(circle, hsl(var(--primary)/15) 0%, transparent 70%);
+    top: -150px;
+    right: -150px;
+    border-radius: 50%;
+    z-index: -1;
+  }
+  
+  .card-details-container::after {
+    content: '';
+    position: absolute;
+    width: 350px;
+    height: 350px;
+    background: radial-gradient(circle, hsl(var(--accent)/10) 0%, transparent 70%);
+    bottom: -200px;
+    left: -100px;
+    border-radius: 50%;
+    z-index: -1;
+  }
+  
+  .card-float-effect {
+    animation: float 6s ease-in-out infinite;
+  }
+  
+  .card-glow-effect {
+    box-shadow: 0 0 30px 0 hsla(var(--primary)/10);
+    transition: all 0.5s ease;
+  }
+  
+  .card-glow-effect:hover {
+    box-shadow: 0 0 40px 5px hsla(var(--primary)/20);
+  }
+  
+  .success-badge {
+    background: linear-gradient(90deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+    animation: pulse 2s infinite;
+  }
+  
+  .confetti-bg {
+    background-image: url("data:image/svg+xml,%3Csvg width='300' height='300' viewBox='0 0 300 300' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cpath d='M22 73L2 43l40 60 40-60-20 30' stroke='%234299e1' stroke-width='1'/%3E%3Cpath d='M152 73l-20-30 40 60 40-60-20 30' stroke='%2338b2ac' stroke-width='1'/%3E%3Cpath d='M22 203l-20-30 40 60 40-60-20 30' stroke='%234299e1' stroke-width='1'/%3E%3Cpath d='M152 203l-20-30 40 60 40-60-20 30' stroke='%2338b2ac' stroke-width='1'/%3E%3C/g%3E%3C/svg%3E");
+    opacity: 0.1;
+  }
+  
+  @keyframes float {
+    0% {
+      transform: translateY(0px);
+    }
+    50% {
+      transform: translateY(-10px);
+    }
+    100% {
+      transform: translateY(0px);
+    }
+  }
+  
+  @keyframes pulse {
+    0% {
+      box-shadow: 0 0 0 0 hsla(var(--primary)/30);
+    }
+    70% {
+      box-shadow: 0 0 0 10px hsla(var(--primary)/0);
+    }
+    100% {
+      box-shadow: 0 0 0 0 hsla(var(--primary)/0);
+    }
+  }
+  
+  .text-gradient {
+    background: linear-gradient(90deg, hsl(var(--primary)) 0%, hsl(var(--accent)) 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    color: transparent;
+  }
+  
+  .card-action-button {
+    @apply rounded-full transition-all duration-300;
+    background: linear-gradient(135deg, hsl(var(--primary)/90) 0%, hsl(var(--accent)/90) 100%);
+  }
+  
+  .card-action-button:hover {
+    filter: saturate(1.2) brightness(1.1);
+    transform: translateY(-2px);
+  }
+  
+  .card-3d-effect {
+    transform-style: preserve-3d;
+    transition: transform 0.5s ease;
+  }
+  
+  .card-3d-effect:hover {
+    transform: translateZ(20px) rotateX(5deg) rotateY(-5deg);
+  }
 }
