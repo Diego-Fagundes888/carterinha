@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams, Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import StudentCard from '@/components/StudentCard';
+import StudentCardNew from '@/components/StudentCardNew';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 import { Share2, Download, ArrowLeft, Printer, CheckCircle2, QrCode } from 'lucide-react';
@@ -206,7 +206,7 @@ export default function CardDetails() {
               whileHover={{ scale: 1.02 }}
               transition={{ duration: 0.3 }}
             >
-              <StudentCard student={carteirinha} />
+              <StudentCardNew student={carteirinha} />
             </motion.div>
             
             <motion.div 
