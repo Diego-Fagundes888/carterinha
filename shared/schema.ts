@@ -38,7 +38,7 @@ export const carteirinhaQuerySchema = z.object({
   nome: z.string().optional(),
   matricula: z.string().optional(),
   curso: z.string().optional(),
-  validade: z.enum(["valid", "expired", "expiring"]).optional(),
+  validade: z.enum(["valid", "expired", "expiring", "todas"]).optional(),
   page: z.coerce.number().optional().default(1),
   limit: z.coerce.number().optional().default(10),
 });

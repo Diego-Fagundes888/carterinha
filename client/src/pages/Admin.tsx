@@ -20,8 +20,8 @@ export default function Admin() {
   // Filtros
   const [nome, setNome] = useState('');
   const [matricula, setMatricula] = useState('');
-  const [curso, setCurso] = useState('');
-  const [validade, setValidade] = useState('');
+  const [curso, setCurso] = useState('todos');
+  const [validade, setValidade] = useState('todas');
   const [page, setPage] = useState(1);
   const limit = 10;
   
@@ -36,8 +36,8 @@ export default function Admin() {
       const queryParams = new URLSearchParams();
       if (nome) queryParams.append('nome', nome);
       if (matricula) queryParams.append('matricula', matricula);
-      if (curso) queryParams.append('curso', curso);
-      if (validade) queryParams.append('validade', validade);
+      if (curso && curso !== 'todos') queryParams.append('curso', curso);
+      if (validade && validade !== 'todas') queryParams.append('validade', validade);
       queryParams.append('page', page.toString());
       queryParams.append('limit', limit.toString());
       
@@ -144,7 +144,7 @@ export default function Admin() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="">Todos os cursos</SelectItem>
+                    <SelectItem value="todos">Todos os cursos</SelectItem>
                     <SelectItem value="Engenharia de Software">Engenharia de Software</SelectItem>
                     <SelectItem value="Análise e Des. de Sistemas">Análise e Des. de Sistemas</SelectItem>
                     <SelectItem value="Direito">Direito</SelectItem>
@@ -162,7 +162,7 @@ export default function Admin() {
                 </SelectTrigger>
                 <SelectContent>
                   <SelectGroup>
-                    <SelectItem value="">Todas as validades</SelectItem>
+                    <SelectItem value="todas">Todas as validades</SelectItem>
                     <SelectItem value="valid">Válidas</SelectItem>
                     <SelectItem value="expired">Expiradas</SelectItem>
                     <SelectItem value="expiring">Expirando em 30 dias</SelectItem>

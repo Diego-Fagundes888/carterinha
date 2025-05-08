@@ -200,12 +200,20 @@ export async function registerRoutes(app: Express): Promise<Server> {
   // 4. Listar carteirinhas (com filtros e paginação)
   app.get("/api/carteirinhas", async (req: Request, res: Response) => {
     try {
+      // Processar os parâmetros antes da validação
+      const validade = req.query.validade as string | undefined;
+      const curso = req.query.curso as string | undefined;
+      
+      // Remover valores especiais que são usados apenas na interface
+      const filteredValidade = validade === 'todas' ? undefined : validade;
+      const filteredCurso = curso === 'todos' ? undefined : curso;
+      
       // Validar e extrair query params
       const queryParams = carteirinhaQuerySchema.parse({
         nome: req.query.nome as string | undefined,
         matricula: req.query.matricula as string | undefined,
-        curso: req.query.curso as string | undefined,
-        validade: req.query.validade as string | undefined,
+        curso: filteredCurso,
+        validade: filteredValidade,
         page: req.query.page ? parseInt(req.query.page as string) : 1,
         limit: req.query.limit ? parseInt(req.query.limit as string) : 10
       });
