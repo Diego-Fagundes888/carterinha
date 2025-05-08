@@ -1,0 +1,66 @@
+Você é uma IA desenvolvedora de sites full-stack. Gere um projeto completo (código-fonte) para um site de **carteirinha digital de estudante**, com as seguintes especificações:
+
+1. **Idioma e Estilo**
+
+   * Todo o site deve estar em **Português**.
+   * Design **bonito**, **profissional**, **responsivo** e com **animações suaves** para melhorar a experiência do usuário.
+
+2. **Página Inicial e Geração de Carteirinha**
+
+   * Na página inicial, exiba um botão “Gerar Carteirinha”.
+   * Ao clicar, abra um formulário em modal ou em nova rota.
+   * Campos obrigatórios: Nome completo, Foto (upload), Matrícula, Curso, Validade (data), Data de nascimento, CPF.
+   * Ao enviar, armazene os dados no banco e gere automaticamente:
+
+     * Uma visualização em “cartão” com esses campos dispostos de forma clara e estilosa.
+     * Um **QR Code** exclusivo que encode a URL de verificação.
+   * Após a geração, direcione automaticamente para uma página dedicada que exiba **apenas** a carteirinha preenchida e o QR Code.
+
+3. **Página de Verificação pelo QR Code**
+
+   * Rota `/verificar/:id`:
+
+     * Busca no banco a carteirinha com aquele `id`.
+     * Exibe mensagem “Carteirinha Verificada” e todos os dados (Nome, Foto, Matrícula, Curso, Validade, Data de nascimento, CPF).
+     * Se o `id` não existir ou estiver expirado (validade menor que data atual), exiba “Carteirinha Inválida ou Expirada”.
+
+4. **Persistência de Dados**
+
+   * Integração com **MongoDB** para armazenamento permanente na coleção `carteirinhas`.
+   * Cada documento deve conter: nome, foto (URL ou base64), matrícula, curso, validade, dataNascimento, cpf, qrId, createdAt.
+
+5. **Página de Gerenciamento**
+
+   * Acesse via rota `/admin` ou link no menu.
+   * Exiba uma lista paginada de todas as carteirinhas geradas, com buscas e filtros (por nome, matrícula, curso, validade).
+   * Para cada item, inclua ações: **Ver detalhes**, **Excluir**.
+   * Ao clicar em “Ver detalhes”, abra uma rota dedicada `/admin/:id` que mostra a carteirinha completa e dados brutos.
+   * Interface de gerenciamento com botões, tabelas e animações para feedback (ex.: confirmação de exclusão).
+
+6. **Tecnologias Sugeridas**
+
+   * **Frontend**: React (Next.js), Tailwind CSS e Framer Motion para animações.
+   * **Backend**: Node.js + Express.
+   * **Banco de dados**: MongoDB.
+   * **QR Code**: biblioteca como `qrcode` ou `react-qr-code`.
+
+7. **Responsividade e Performance**
+
+   * O site deve funcionar perfeitamente em desktop e mobile.
+   * Implemente otimizações de carregamento e lazy-load de imagens.
+
+8. **Organização do Código**
+
+   * Estruture em pastas: `/frontend`, `/backend`.
+   * Inclua README com instruções em Português para:
+
+     1. Instalar dependências (`npm install`).
+     2. Configurar variáveis de ambiente (ex.: string de conexão MongoDB).
+     3. Executar em modo de desenvolvimento (`npm run dev`).
+     4. Gerar build e iniciar em produção (`npm run build` / `npm start`).
+
+9. **Extras Opcionais (para versões futuras)**
+
+   * Exportar carteirinha como PDF.
+   * Importação em massa via CSV.
+   * Painel de administração avançado com roles e permissões.
