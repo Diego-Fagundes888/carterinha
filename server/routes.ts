@@ -109,6 +109,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
         foto: fotoUrl,
         matricula: req.body.matricula,
         curso: req.body.curso,
+        instituicao: req.body.instituicao,
         validade,
         dataNascimento,
         cpf: req.body.cpf,
