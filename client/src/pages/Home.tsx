@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import CardForm from '@/components/CardForm';
 import StudentCard from '@/components/StudentCard';
-import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogTrigger, DialogHeader } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from "@/components/ui/card";
 import { BadgeCheck, Scan, School, ShieldCheck } from "lucide-react";
@@ -70,12 +70,16 @@ export default function Home() {
                 </span>
               </Button>
             </DialogTrigger>
-            <DialogContent className="sm:max-w-[600px] glassmorphism">
-              <DialogTitle className="text-2xl animated-gradient-text">Formulário de Carteirinha</DialogTitle>
-              <DialogDescription className="text-muted-foreground text-base">
-                Preencha os dados para gerar sua carteirinha digital estudantil.
-              </DialogDescription>
-              <CardForm onSuccessfulSubmit={() => setOpenDialog(false)} />
+            <DialogContent className="sm:max-w-[600px] glassmorphism max-h-[90vh] overflow-y-auto">
+              <DialogHeader>
+                <DialogTitle className="text-2xl animated-gradient-text">Formulário de Carteirinha</DialogTitle>
+                <DialogDescription className="text-muted-foreground text-base">
+                  Preencha os dados para gerar sua carteirinha digital estudantil.
+                </DialogDescription>
+              </DialogHeader>
+              <div className="py-4">
+                <CardForm onSuccessfulSubmit={() => setOpenDialog(false)} />
+              </div>
             </DialogContent>
           </Dialog>
         </motion.div>
