@@ -2,7 +2,7 @@ import { useQuery } from '@tanstack/react-query';
 import { useParams, Link } from 'wouter';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent } from '@/components/ui/card';
-import StudentCardNew from '@/components/StudentCardNew';
+import FixedStudentCard from '@/components/FixedStudentCard';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useToast } from '@/hooks/use-toast';
 import { Share2, Download, ArrowLeft, Printer, CheckCircle2, QrCode } from 'lucide-react';
@@ -202,7 +202,7 @@ export default function CardDetails() {
           {/* Card Container */}
           <div className="flex flex-col items-center justify-center py-10 px-4">
             <div className="w-[380px] h-[540px] mx-auto card-float-effect">
-              <StudentCardNew student={carteirinha} />
+              <FixedStudentCard student={carteirinha} />
             </div>
             
             <motion.div 
