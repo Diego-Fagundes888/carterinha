@@ -27,15 +27,15 @@ export default function FixedStudentCard({ student, example = false, miniVersion
   };
 
   return (
-    <div className={`card-container relative ${miniVersion ? 'w-full max-w-[300px] h-[420px]' : 'w-full max-w-[380px] h-[540px]'} mx-auto`}>
+    <div className={`card-container relative ${miniVersion ? 'w-full max-w-[300px] h-[470px]' : 'w-full max-w-[400px] h-[650px]'} mx-auto`}>
       <div 
         className={`card-3d ${isFlipped ? 'is-flipped' : ''}`}
         onClick={handleFlip}
       >
-        <div className="card-face card-front shine-effect">
+        <div className="card-face card-front shine-effect overflow-visible">
           <div className="p-4 sm:p-8 h-full flex flex-col">
             {/* Header */}
-            <div className="flex justify-between items-start mb-4 sm:mb-6">
+            <div className="flex justify-between items-start mb-3 sm:mb-5">
               <div>
                 <div className="bg-primary text-white text-xs font-bold py-1 px-2 sm:py-1.5 sm:px-3 rounded-full inline-flex items-center">
                   <BadgeCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1" /> ESTUDANTE
@@ -108,8 +108,8 @@ export default function FixedStudentCard({ student, example = false, miniVersion
             </div>
               
             {/* QR Code - Centralizado */}
-            <div className="flex justify-center w-full mb-2">
-              <div className="w-28 h-28 sm:w-36 sm:h-36 bg-white shadow-md rounded-lg p-2 border border-primary/20 flex items-center justify-center mx-auto">
+            <div className="flex justify-center w-full mb-6 mt-4">
+              <div className="w-32 h-32 sm:w-40 sm:h-40 bg-white shadow-md rounded-lg p-2 border border-primary/20 flex items-center justify-center mx-auto">
                 {example ? (
                   <div className="w-full h-full flex items-center justify-center bg-gray-50">
                     <span className="material-icons text-muted-foreground text-4xl sm:text-5xl">qr_code_2</span>
@@ -117,7 +117,7 @@ export default function FixedStudentCard({ student, example = false, miniVersion
                 ) : (
                   <QRCodeSVG
                     value={verificationUrl}
-                    size={miniVersion ? 90 : 120}
+                    size={miniVersion ? 100 : 140}
                     level="H"
                     includeMargin={false}
                     bgColor="#FFFFFF"
@@ -133,7 +133,7 @@ export default function FixedStudentCard({ student, example = false, miniVersion
           </div>
         </div>
         
-        <div className="card-face card-back shine-effect">
+        <div className="card-face card-back shine-effect overflow-visible">
           <div className="p-4 sm:p-8 h-full flex flex-col bg-white">
             {/* Header */}
             <div className="bg-gradient-to-r from-primary to-accent py-3 px-3 sm:py-4 sm:px-4 text-white text-center mb-4 sm:mb-6 rounded-lg">
