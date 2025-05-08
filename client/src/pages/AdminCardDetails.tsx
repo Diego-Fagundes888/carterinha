@@ -42,7 +42,7 @@ export default function AdminCardDetails() {
 
   const handleDelete = async () => {
     try {
-      await apiRequest(`/api/carteirinhas/${id}`, { method: 'DELETE' });
+      await apiRequest('DELETE', `/api/carteirinhas/${id}`);
       toast({
         title: "Carteirinha excluída",
         description: "A carteirinha foi excluída com sucesso.",

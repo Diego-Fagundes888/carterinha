@@ -147,7 +147,7 @@ export default function Admin() {
   const handleConfirmDelete = async () => {
     if (deleteId) {
       try {
-        await apiRequest(`/api/carteirinhas/${deleteId}`, { method: 'DELETE' });
+        await apiRequest('DELETE', `/api/carteirinhas/${deleteId}`);
         queryClient.invalidateQueries({ queryKey: ['/api/carteirinhas'] });
         toast({
           title: "Carteirinha excluída",
