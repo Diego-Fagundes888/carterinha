@@ -201,13 +201,9 @@ export default function CardDetails() {
           
           {/* Card Container */}
           <div className="flex flex-col items-center justify-center py-10 px-4">
-            <motion.div 
-              className="card-container max-w-md mx-auto card-float-effect"
-              whileHover={{ scale: 1.02 }}
-              transition={{ duration: 0.3 }}
-            >
+            <div className="w-[380px] h-[540px] mx-auto card-float-effect">
               <StudentCardNew student={carteirinha} />
-            </motion.div>
+            </div>
             
             <motion.div 
               className="mt-10 text-center max-w-md mx-auto bg-white shadow-md p-6 rounded-xl border border-primary/20"
