@@ -133,41 +133,36 @@ export default function StudentCard({ student, example = false, miniVersion = fa
       </motion.div>
       
       <motion.div className="card-face card-back">
-        <div className="p-8 h-full flex flex-col">
+        <div className="p-8 h-full flex flex-col bg-white">
           {/* Header */}
-          <div className="bg-gradient-to-r from-primary to-accent py-4 px-4 text-white text-center mb-8 rounded-lg">
-            <h4 className="font-card font-bold tracking-wide text-lg">INFORMAÇÕES ADICIONAIS</h4>
+          <div className="bg-gradient-to-r from-primary to-accent py-4 px-4 text-white text-center mb-6 rounded-lg">
+            <h4 className="font-card font-bold tracking-wide text-lg">VERIFICAÇÃO DIGITAL</h4>
           </div>
           
-          <div className="flex-1 flex flex-col justify-between">
-            <div className="space-y-6">
-              <div className="bg-background/50 p-4 rounded-lg border border-border/60">
-                <p className="text-sm text-foreground/80 leading-relaxed">
-                  Esta carteirinha é de uso pessoal e intransferível. 
-                  Em caso de perda ou extravio, comunique imediatamente à secretaria acadêmica.
-                </p>
-              </div>
-              
-              <div>
-                <div className="text-xs font-medium text-muted-foreground mb-1 flex items-center font-card">
-                  <Calendar className="w-3 h-3 mr-1" /> EMITIDO EM
+          <div className="flex-1 flex flex-col items-center justify-center">
+            {/* QR Code Grande */}
+            <div className="w-64 h-64 bg-white p-4 rounded-xl border-2 border-primary/20 shadow-lg flex items-center justify-center mb-4">
+              {example ? (
+                <div className="w-full h-full flex items-center justify-center bg-gray-50">
+                  <span className="material-icons text-muted-foreground text-7xl">qr_code_2</span>
                 </div>
-                <div className="text-sm font-bold font-card">{formatDate(student.createdAt)}</div>
-              </div>
+              ) : (
+                <QRCodeSVG
+                  value={verificationUrl}
+                  size={230}
+                  level="H"
+                  includeMargin={true}
+                  bgColor="#FFFFFF"
+                  fgColor="#000000"
+                />
+              )}
             </div>
             
-            <div className="mt-auto space-y-6">
-              <div className="text-center">
-                <div className="mx-auto w-40 h-14 border-b-2 border-border/80"></div>
-                <div className="text-sm font-card mt-1 text-muted-foreground">Assinatura do Portador</div>
+            <div className="text-center mb-4">
+              <div className="text-sm font-medium text-gray-900 mb-1">
+                Escaneie este código para verificar a autenticidade
               </div>
-              
-              <div className="bg-accent/5 text-center p-3 rounded-lg border border-border/50">
-                <div className="text-xs text-muted-foreground mb-1 font-medium">
-                  Verifique a autenticidade em:
-                </div>
-                <div className="text-xs font-bold text-primary break-all">{verificationUrl}</div>
-              </div>
+              <div className="text-xs text-primary">{verificationUrl}</div>
             </div>
           </div>
           

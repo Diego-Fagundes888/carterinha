@@ -219,9 +219,12 @@ export default function CardDetails() {
                 <QrCode className="w-6 h-6 mr-2" />
                 <h4 className="font-bold text-lg text-gray-900">Link para verificação</h4>
               </div>
-              <div className="text-gray-900 font-medium break-all bg-accent/5 p-4 rounded-lg border border-accent/20">
-                {`${window.location.origin}/verificar/${carteirinha.qrId}`}
-              </div>
+              <Link href={`/verificar/${carteirinha.qrId}`} className="block">
+                <div className="text-primary font-medium break-all bg-accent/5 p-4 rounded-lg border border-accent/20 hover:bg-accent/10 transition-colors cursor-pointer flex items-center justify-center">
+                  <span className="text-gray-900">{`${window.location.origin}/verificar/${carteirinha.qrId}`}</span>
+                  <span className="material-icons ml-2 text-accent">open_in_new</span>
+                </div>
+              </Link>
               <p className="text-gray-700 mt-4 text-sm">
                 Este link pode ser usado para verificar a autenticidade da sua carteirinha digital.
               </p>
