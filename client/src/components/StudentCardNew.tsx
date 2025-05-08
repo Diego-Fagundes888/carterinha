@@ -43,7 +43,9 @@ export default function StudentCardNew({ student, example = false, miniVersion =
               <div className="bg-primary text-white text-xs font-bold py-1.5 px-3 rounded-full inline-flex items-center">
                 <BadgeCheck className="w-3.5 h-3.5 mr-1" /> ESTUDANTE
               </div>
-              <h4 className="font-card font-bold text-xl mt-2 tracking-wide text-foreground/90">UNIVERSIDADE EXEMPLO</h4>
+              <h4 className="font-card font-bold text-xl mt-2 tracking-wide text-foreground/90">
+                {student.instituicao || "UNIVERSIDADE EXEMPLO"}
+              </h4>
             </div>
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20">
               <School className="w-8 h-8 text-primary" />
