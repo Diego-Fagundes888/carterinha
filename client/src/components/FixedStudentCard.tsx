@@ -99,25 +99,25 @@ export default function FixedStudentCard({ student, example = false, miniVersion
               </div>
             </div>
             
-            {/* Footer */}
-            <div className="mt-auto flex justify-between items-end">
-              <div>
-                <div className="text-[10px] sm:text-xs font-medium text-muted-foreground mb-0.5 sm:mb-1 flex items-center font-card">
-                  <CreditCard className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1" /> CPF
-                </div>
-                <div className="text-xs sm:text-sm font-bold font-card text-foreground">{student.cpf}</div>
+            {/* CPF Section */}
+            <div className="mt-auto">
+              <div className="text-[10px] sm:text-xs font-medium text-muted-foreground mb-0.5 sm:mb-1 flex items-center font-card">
+                <CreditCard className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1" /> CPF
               </div>
+              <div className="text-xs sm:text-sm font-bold font-card text-foreground mb-4">{student.cpf}</div>
+            </div>
               
-              {/* QR Code */}
-              <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white shadow-sm rounded-lg p-2 border border-border/50 flex items-center justify-center">
+            {/* QR Code - Centralizado */}
+            <div className="flex justify-center w-full mb-2">
+              <div className="w-28 h-28 sm:w-32 sm:h-32 bg-white shadow-md rounded-lg p-2 border border-primary/20 flex items-center justify-center mx-auto">
                 {example ? (
                   <div className="w-full h-full flex items-center justify-center bg-gray-50">
-                    <span className="material-icons text-muted-foreground text-3xl sm:text-4xl">qr_code_2</span>
+                    <span className="material-icons text-muted-foreground text-4xl sm:text-5xl">qr_code_2</span>
                   </div>
                 ) : (
                   <QRCodeSVG
                     value={verificationUrl}
-                    size={miniVersion ? 60 : 80}
+                    size={miniVersion ? 90 : 110}
                     level="H"
                     includeMargin={false}
                     bgColor="#FFFFFF"
