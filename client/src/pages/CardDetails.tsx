@@ -118,44 +118,47 @@ export default function CardDetails() {
       className="max-w-4xl mx-auto card-details-container"
     >
       {/* Header e navegação */}
-      <div className="flex flex-wrap items-center justify-between mb-6 gap-4">
-        <div className="flex items-center">
+      <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-6 gap-4">
+        <div className="flex flex-wrap items-center">
           <Link href="/">
             <Button variant="ghost" className="flex items-center p-0 text-gray-700 hover:text-primary">
-              <ArrowLeft className="w-5 h-5 mr-2" />
+              <ArrowLeft className="w-4 h-4 sm:w-5 sm:h-5 mr-1 sm:mr-2" />
               <span>Voltar</span>
             </Button>
           </Link>
-          <h2 className="text-3xl font-bold ml-6 text-gradient">Sua Carteirinha Digital</h2>
+          <h2 className="text-xl sm:text-2xl md:text-3xl font-bold ml-3 sm:ml-6 text-gradient">Sua Carteirinha Digital</h2>
         </div>
         
-        <div className="flex space-x-2">
+        <div className="flex flex-wrap gap-2 mt-3 md:mt-0">
           <Button
             onClick={handlePrint}
             variant="outline"
-            className="border-primary/30 hover:bg-primary/5 text-primary"
+            size="sm"
+            className="border-primary/30 hover:bg-primary/5 text-primary text-xs sm:text-sm"
           >
-            <Printer className="w-4 h-4 mr-2" />
-            Imprimir
+            <Printer className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            <span className="sm:inline">Imprimir</span>
           </Button>
           
           <Button
             onClick={handleDownload}
             variant="outline"
-            className="border-primary/30 hover:bg-primary/5 text-primary"
+            size="sm"
+            className="border-primary/30 hover:bg-primary/5 text-primary text-xs sm:text-sm"
           >
-            <Download className="w-4 h-4 mr-2" />
-            Baixar PDF
+            <Download className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+            <span className="sm:inline">Baixar PDF</span>
           </Button>
           
           <div className="relative">
             <Button
               onClick={handleShare}
               variant="outline"
-              className="border-primary/30 hover:bg-primary/5 text-primary"
+              size="sm"
+              className="border-primary/30 hover:bg-primary/5 text-primary text-xs sm:text-sm"
             >
-              <Share2 className="w-4 h-4 mr-2" />
-              Compartilhar
+              <Share2 className="w-3 h-3 sm:w-4 sm:h-4 mr-1 sm:mr-2" />
+              <span className="sm:inline">Compartilhar</span>
             </Button>
             
             <AnimatePresence>
@@ -165,7 +168,7 @@ export default function CardDetails() {
                   animate={{ opacity: 1, y: 0 }}
                   exit={{ opacity: 0, y: 5 }}
                   transition={{ duration: 0.2 }}
-                  className="absolute right-0 top-12 bg-white shadow-lg rounded-lg p-3 w-64 z-10 border border-border"
+                  className="absolute right-0 top-10 bg-white shadow-lg rounded-lg p-3 w-64 z-10 border border-border"
                 >
                   <div 
                     className="flex items-center p-2 hover:bg-gray-50 rounded-md cursor-pointer transition-colors"
