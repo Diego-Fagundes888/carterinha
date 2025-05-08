@@ -5,6 +5,7 @@ import { ptBR } from 'date-fns/locale';
 import { QRCodeSVG } from 'qrcode.react';
 import { cn } from '@/lib/utils';
 import { Carteirinha } from '@shared/schema';
+import { BadgeCheck, Calendar, GraduationCap, School, User, FileText, CreditCard } from 'lucide-react';
 
 interface StudentCardProps {
   student: Carteirinha;
@@ -24,31 +25,31 @@ export default function StudentCard({ student, example = false, miniVersion = fa
   return (
     <div 
       className={cn(
-        "student-card rounded-xl shadow-card bg-white overflow-hidden cursor-pointer transition-transform duration-600",
+        "student-card shine-effect cursor-pointer",
         isFlipped ? "flipped" : "",
-        miniVersion ? "scale-95" : ""
+        miniVersion ? "scale-[0.95]" : ""
       )}
       onClick={() => setIsFlipped(!isFlipped)}
-      style={{ transformStyle: 'preserve-3d' }}
     >
-      <motion.div 
-        className="card-face card-front relative"
-        style={{ backfaceVisibility: 'hidden' }}
-      >
-        <div className="p-6">
+      <motion.div className="card-face card-front">
+        <div className="p-8 h-full flex flex-col">
+          {/* Header */}
           <div className="flex justify-between items-start mb-6">
             <div>
-              <div className="bg-primary text-white text-xs font-bold py-1 px-2 rounded">ESTUDANTE</div>
-              <h4 className="font-card font-bold text-lg mt-2">UNIVERSIDADE EXEMPLO</h4>
+              <div className="bg-primary text-white text-xs font-bold py-1.5 px-3 rounded-full inline-flex items-center">
+                <BadgeCheck className="w-3.5 h-3.5 mr-1" /> ESTUDANTE
+              </div>
+              <h4 className="font-card font-bold text-xl mt-2 tracking-wide text-foreground/90">UNIVERSIDADE EXEMPLO</h4>
             </div>
-            <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center">
-              <span className="material-icons text-gray-400 text-2xl">school</span>
+            <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20">
+              <School className="w-8 h-8 text-primary" />
             </div>
           </div>
           
-          <div className="flex space-x-4 mb-4">
+          {/* Content - Student info */}
+          <div className="flex space-x-6 mb-8">
             {/* Student photo */}
-            <div className="w-24 h-32 bg-gray-100 border border-gray-300 rounded-lg overflow-hidden">
+            <div className="w-28 h-36 bg-background shadow-md rounded-xl overflow-hidden border border-border">
               <img 
                 src={student.foto} 
                 alt="Foto do estudante" 
@@ -56,96 +57,122 @@ export default function StudentCard({ student, example = false, miniVersion = fa
               />
             </div>
             
-            {/* Student info */}
-            <div className="flex-1">
-              <div className="text-xs text-gray-500 mb-1 font-card">NOME</div>
-              <div className="text-sm font-semibold font-card mb-2">{student.nome}</div>
+            {/* Student details */}
+            <div className="flex-1 space-y-3">
+              <div>
+                <div className="text-xs font-medium text-muted-foreground mb-1 flex items-center font-card">
+                  <User className="w-3 h-3 mr-1" /> NOME
+                </div>
+                <div className="text-base font-bold font-card text-foreground">{student.nome}</div>
+              </div>
               
-              <div className="text-xs text-gray-500 mb-1 font-card">MATRÍCULA</div>
-              <div className="text-sm font-semibold font-card mb-2">{student.matricula}</div>
+              <div>
+                <div className="text-xs font-medium text-muted-foreground mb-1 flex items-center font-card">
+                  <FileText className="w-3 h-3 mr-1" /> MATRÍCULA
+                </div>
+                <div className="text-base font-bold font-card text-foreground">{student.matricula}</div>
+              </div>
               
-              <div className="text-xs text-gray-500 mb-1 font-card">CURSO</div>
-              <div className="text-sm font-semibold font-card mb-2">{student.curso}</div>
+              <div>
+                <div className="text-xs font-medium text-muted-foreground mb-1 flex items-center font-card">
+                  <GraduationCap className="w-3 h-3 mr-1" /> CURSO
+                </div>
+                <div className="text-base font-bold font-card text-foreground">{student.curso}</div>
+              </div>
             </div>
           </div>
           
-          <div className="grid grid-cols-2 gap-4 mb-4 text-sm">
-            <div>
-              <div className="text-xs text-gray-500 mb-1 font-card">DATA DE NASCIMENTO</div>
-              <div className="font-semibold font-card">{formatDate(student.dataNascimento)}</div>
+          {/* Additional info */}
+          <div className="grid grid-cols-2 gap-6 mb-8">
+            <div className="bg-accent/5 rounded-lg p-3 border border-border/50">
+              <div className="text-xs font-medium text-muted-foreground mb-1 flex items-center font-card">
+                <Calendar className="w-3 h-3 mr-1" /> DATA DE NASCIMENTO
+              </div>
+              <div className="text-sm font-bold font-card text-foreground">{formatDate(student.dataNascimento)}</div>
             </div>
-            <div>
-              <div className="text-xs text-gray-500 mb-1 font-card">VALIDADE</div>
-              <div className="font-semibold font-card">{formatDate(student.validade)}</div>
+            <div className="bg-primary/5 rounded-lg p-3 border border-border/50">
+              <div className="text-xs font-medium text-muted-foreground mb-1 flex items-center font-card">
+                <Calendar className="w-3 h-3 mr-1" /> VALIDADE
+              </div>
+              <div className="text-sm font-bold font-card text-foreground">{formatDate(student.validade)}</div>
             </div>
           </div>
           
-          <div className="flex justify-between items-end">
+          {/* Footer */}
+          <div className="mt-auto flex justify-between items-end">
             <div>
-              <div className="text-xs text-gray-500 mb-1 font-card">CPF</div>
-              <div className="font-semibold font-card">{student.cpf}</div>
+              <div className="text-xs font-medium text-muted-foreground mb-1 flex items-center font-card">
+                <CreditCard className="w-3 h-3 mr-1" /> CPF
+              </div>
+              <div className="text-sm font-bold font-card text-foreground">{student.cpf}</div>
             </div>
             
             {/* QR Code */}
-            <div className="w-20 h-20 bg-white border border-gray-300 rounded p-1">
+            <div className="w-24 h-24 bg-white shadow-sm rounded-lg p-2 border border-border/50 flex items-center justify-center">
               {example ? (
-                <div className="w-full h-full flex items-center justify-center bg-gray-100">
-                  <span className="material-icons text-gray-400">qr_code_2</span>
+                <div className="w-full h-full flex items-center justify-center bg-gray-50">
+                  <span className="material-icons text-muted-foreground text-4xl">qr_code_2</span>
                 </div>
               ) : (
                 <QRCodeSVG
                   value={verificationUrl}
-                  size={72}
+                  size={80}
                   level="H"
                   includeMargin={false}
+                  bgColor="#FFFFFF"
+                  fgColor="#000000"
                 />
               )}
             </div>
           </div>
           
-          <div className="text-xs text-center text-gray-500 mt-4">
-            Clique no cartão para ver o verso
+          <div className="text-xs text-center text-muted-foreground mt-6 absolute bottom-2 left-0 right-0">
+            Toque no cartão para ver o verso
           </div>
         </div>
       </motion.div>
       
-      <motion.div 
-        className="card-face card-back absolute inset-0"
-        style={{ backfaceVisibility: 'hidden', transform: 'rotateY(180deg)' }}
-      >
-        <div className="p-6 h-full flex flex-col">
-          <div className="bg-gray-800 py-4 px-4 text-white text-center mb-6">
-            <h4 className="font-card font-bold">INFORMAÇÕES ADICIONAIS</h4>
+      <motion.div className="card-face card-back">
+        <div className="p-8 h-full flex flex-col">
+          {/* Header */}
+          <div className="bg-gradient-to-r from-primary to-accent py-4 px-4 text-white text-center mb-8 rounded-lg">
+            <h4 className="font-card font-bold tracking-wide text-lg">INFORMAÇÕES ADICIONAIS</h4>
           </div>
           
           <div className="flex-1 flex flex-col justify-between">
-            <div>
-              <p className="text-sm text-gray-600 mb-4">
-                Esta carteirinha é de uso pessoal e intransferível. 
-                Em caso de perda ou extravio, comunique imediatamente à secretaria.
-              </p>
-              
-              <div className="text-xs text-gray-500 mb-1 font-card">EMITIDO EM</div>
-              <div className="font-semibold font-card mb-3">{formatDate(student.createdAt)}</div>
-            </div>
-            
-            <div className="mt-auto">
-              <div className="text-center mb-2">
-                <div className="mx-auto w-32 h-12 border-b-2 border-gray-400"></div>
-                <div className="text-sm font-card mt-1">Assinatura do Portador</div>
+            <div className="space-y-6">
+              <div className="bg-background/50 p-4 rounded-lg border border-border/60">
+                <p className="text-sm text-foreground/80 leading-relaxed">
+                  Esta carteirinha é de uso pessoal e intransferível. 
+                  Em caso de perda ou extravio, comunique imediatamente à secretaria acadêmica.
+                </p>
               </div>
               
-              <div className="text-center mt-4">
-                <div className="text-xs text-gray-500">
-                  Verifique a autenticidade em:<br/>
-                  <span className="text-primary break-all">{verificationUrl}</span>
+              <div>
+                <div className="text-xs font-medium text-muted-foreground mb-1 flex items-center font-card">
+                  <Calendar className="w-3 h-3 mr-1" /> EMITIDO EM
                 </div>
+                <div className="text-sm font-bold font-card">{formatDate(student.createdAt)}</div>
+              </div>
+            </div>
+            
+            <div className="mt-auto space-y-6">
+              <div className="text-center">
+                <div className="mx-auto w-40 h-14 border-b-2 border-border/80"></div>
+                <div className="text-sm font-card mt-1 text-muted-foreground">Assinatura do Portador</div>
+              </div>
+              
+              <div className="bg-accent/5 text-center p-3 rounded-lg border border-border/50">
+                <div className="text-xs text-muted-foreground mb-1 font-medium">
+                  Verifique a autenticidade em:
+                </div>
+                <div className="text-xs font-bold text-primary break-all">{verificationUrl}</div>
               </div>
             </div>
           </div>
           
-          <div className="text-xs text-center text-gray-500 mt-4">
-            Clique no cartão para ver a frente
+          <div className="text-xs text-center text-muted-foreground mt-6 absolute bottom-2 left-0 right-0">
+            Toque no cartão para ver a frente
           </div>
         </div>
       </motion.div>
