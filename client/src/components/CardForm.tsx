@@ -5,7 +5,6 @@ import { useLocation } from "wouter";
 import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
 import { carteirinhaValidationSchema } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
@@ -286,24 +285,17 @@ export default function CardForm({ onSuccessfulSubmit }: CardFormProps) {
                 render={({ field }) => (
                   <FormItem className="transition-all duration-200 hover:translate-x-1">
                     <FormLabel className="text-sm font-medium">Curso *</FormLabel>
-                    <Select 
-                      onValueChange={field.onChange} 
-                      defaultValue={field.value}
-                    >
-                      <FormControl>
-                        <SelectTrigger className="rounded-lg border-input/60 focus:border-primary/40">
-                          <SelectValue placeholder="Selecione seu curso" />
-                        </SelectTrigger>
-                      </FormControl>
-                      <SelectContent>
-                        <SelectItem value="Engenharia de Software">Engenharia de Software</SelectItem>
-                        <SelectItem value="Análise e Des. de Sistemas">Análise e Des. de Sistemas</SelectItem>
-                        <SelectItem value="Direito">Direito</SelectItem>
-                        <SelectItem value="Medicina">Medicina</SelectItem>
-                        <SelectItem value="Administração">Administração</SelectItem>
-                      </SelectContent>
-                    </Select>
+                    <FormControl>
+                      <Input 
+                        placeholder="Digite o nome do seu curso" 
+                        className="rounded-lg border-input/60 focus:border-primary/40" 
+                        {...field} 
+                      />
+                    </FormControl>
                     <FormMessage className="text-xs" />
+                    <div className="text-xs text-muted-foreground mt-1">
+                      Ex: Engenharia de Software, Medicina, Direito, etc.
+                    </div>
                   </FormItem>
                 )}
               />
