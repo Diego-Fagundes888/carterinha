@@ -9,8 +9,9 @@
     width: 380px;
     height: 540px;
     perspective: 1000px;
-    transform-style: preserve-3d;
+    position: relative;
     transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform-style: preserve-3d;
   }
 
   .student-card.flipped {
@@ -22,20 +23,34 @@
     height: 100%;
     position: absolute;
     backface-visibility: hidden;
+    -webkit-backface-visibility: hidden; /* Safari */
     border-radius: 1rem;
     overflow: hidden;
     box-shadow: 0 10px 30px -5px rgba(0, 0, 0, 0.1);
+    transform-style: preserve-3d;
+    transition: transform 0.8s cubic-bezier(0.175, 0.885, 0.32, 1.275);
   }
 
   .card-front {
     background: linear-gradient(135deg, hsl(var(--background)) 0%, hsl(var(--muted)) 100%);
     border: 1px solid rgba(var(--card));
+    z-index: 2;
+    transform: rotateY(0deg);
+  }
+
+  .student-card.flipped .card-front {
+    transform: rotateY(-180deg);
   }
 
   .card-back {
-    background: linear-gradient(135deg, hsl(var(--muted)) 0%, hsl(var(--background)) 100%);
+    background: white;
     transform: rotateY(180deg);
     border: 1px solid rgba(var(--card));
+  }
+
+  .student-card.flipped .card-back {
+    transform: rotateY(0deg);
+    z-index: 3;
   }
 
   .font-card {

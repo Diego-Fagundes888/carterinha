@@ -22,6 +22,12 @@ export default function StudentCard({ student, example = false, miniVersion = fa
 
   const verificationUrl = `${window.location.origin}/verificar/${student.qrId}`;
 
+  const handleFlip = () => {
+    const newFlippedState = !isFlipped;
+    console.log("Flipping card:", newFlippedState ? "Showing back" : "Showing front");
+    setIsFlipped(newFlippedState);
+  };
+
   return (
     <div 
       className={cn(
@@ -29,7 +35,7 @@ export default function StudentCard({ student, example = false, miniVersion = fa
         isFlipped ? "flipped" : "",
         miniVersion ? "scale-[0.95]" : ""
       )}
-      onClick={() => setIsFlipped(!isFlipped)}
+      onClick={handleFlip}
     >
       <motion.div className="card-face card-front">
         <div className="p-8 h-full flex flex-col">
