@@ -10,7 +10,7 @@ import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "
 import { carteirinhaValidationSchema } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { z } from "zod";
 import useCardFormData from "@/hooks/useCardFormData";
 
@@ -34,6 +34,53 @@ interface CardFormProps {
   onSuccessfulSubmit?: () => void;
 }
 
+// Função para gerar número de matrícula aleatório
+function generateRandomMatricula(): string {
+  // Obtém o ano atual
+  const currentYear = new Date().getFullYear();
+  
+  // Decide qual formato de matrícula usar (aleatoriamente)
+  const formatType = Math.floor(Math.random() * 5); // 0-4 para os 5 tipos de formatos
+  
+  switch (formatType) {
+    case 0: 
+      // Formato: Ano de ingresso + número sequencial (ex: 202500123)
+      const sequentialNum = Math.floor(Math.random() * 9000) + 1000; // 1000-9999
+      return `${currentYear}${String(sequentialNum).padStart(5, '0')}`;
+    
+    case 1:
+      // Formato: Prefixo + data + número sequencial (ex: MAT202505070001)
+      const prefixes = ['MAT', 'EST', 'ALU', 'UNI'];
+      const prefix = prefixes[Math.floor(Math.random() * prefixes.length)];
+      const month = String(Math.floor(Math.random() * 12) + 1).padStart(2, '0');
+      const day = String(Math.floor(Math.random() * 28) + 1).padStart(2, '0');
+      const seqNum = String(Math.floor(Math.random() * 9999) + 1).padStart(4, '0');
+      return `${prefix}${currentYear}${month}${day}${seqNum}`;
+    
+    case 2:
+      // Formato: Código do curso + número sequencial (ex: INF-001234)
+      const courseCodes = ['INF', 'ADM', 'DIR', 'MED', 'ENG'];
+      const courseCode = courseCodes[Math.floor(Math.random() * courseCodes.length)];
+      const seqCourseNum = String(Math.floor(Math.random() * 999999) + 1).padStart(6, '0');
+      return `${courseCode}-${seqCourseNum}`;
+    
+    case 3:
+      // Formato: Somente números sequenciais (ex: 00012345)
+      return String(Math.floor(Math.random() * 99999999) + 1).padStart(8, '0');
+    
+    case 4:
+      // Formato: Com verificador (ex: 202501234-9)
+      const baseNum = `${currentYear}${String(Math.floor(Math.random() * 99999) + 1).padStart(5, '0')}`;
+      // Simulação simples de dígito verificador (soma dos dígitos % 10)
+      const sum = baseNum.split('').reduce((acc, digit) => acc + parseInt(digit, 10), 0);
+      const checkDigit = sum % 10;
+      return `${baseNum}-${checkDigit}`;
+    
+    default:
+      return `${currentYear}${String(Math.floor(Math.random() * 9999) + 1).padStart(4, '0')}`;
+  }
+}
+
 export default function CardForm({ onSuccessfulSubmit }: CardFormProps) {
   const { toast } = useToast();
   const [, navigate] = useLocation();
@@ -41,18 +88,29 @@ export default function CardForm({ onSuccessfulSubmit }: CardFormProps) {
   
   const [photoPreview, setPhotoPreview] = useState<string | null>(null);
   const [photoFile, setPhotoFile] = useState<File | null>(null);
+  const [matricula, setMatricula] = useState<string>(generateRandomMatricula());
   
   const form = useForm<FormValues>({
     resolver: zodResolver(formSchema),
     defaultValues: {
       nome: "",
-      matricula: "",
+      matricula: matricula,
       curso: "",
       dataNascimento: format(new Date(), "yyyy-MM-dd"),
       validade: format(new Date(new Date().setFullYear(new Date().getFullYear() + 1)), "yyyy-MM-dd"),
       cpf: "",
     },
   });
+  
+  // Gerar nova matrícula sempre que o componente for montado e atualizar o formulário
+  useEffect(() => {
+    // Gera um novo número de matrícula ao montar o componente
+    const novaMatricula = generateRandomMatricula();
+    setMatricula(novaMatricula);
+    
+    // Atualiza o campo de matrícula no formulário
+    form.setValue("matricula", novaMatricula);
+  }, [form]);
   
   const mutation = useMutation({
     mutationFn: async (data: FormData | object) => {
@@ -190,14 +248,33 @@ export default function CardForm({ onSuccessfulSubmit }: CardFormProps) {
                 name="matricula"
                 render={({ field }) => (
                   <FormItem className="transition-all duration-200 hover:translate-x-1">
-                    <FormLabel className="text-sm font-medium">Matrícula *</FormLabel>
-                    <FormControl>
-                      <Input 
-                        placeholder="Digite seu número de matrícula" 
-                        className="rounded-lg border-input/60 focus:border-primary/40" 
-                        {...field} 
-                      />
-                    </FormControl>
+                    <div className="flex justify-between items-center">
+                      <FormLabel className="text-sm font-medium">Matrícula *</FormLabel>
+                      <span className="text-xs text-accent italic">Gerada automaticamente</span>
+                    </div>
+                    <div className="relative">
+                      <FormControl>
+                        <Input 
+                          placeholder="Número de matrícula" 
+                          className="rounded-lg border-input/60 focus:border-primary/40 pr-10" 
+                          {...field} 
+                        />
+                      </FormControl>
+                      <Button 
+                        type="button" 
+                        size="icon"
+                        variant="ghost"
+                        className="absolute right-2 top-1/2 transform -translate-y-1/2 h-6 w-6 text-muted-foreground hover:text-primary"
+                        title="Gerar novo número de matrícula"
+                        onClick={() => {
+                          const novaMatricula = generateRandomMatricula();
+                          setMatricula(novaMatricula);
+                          form.setValue("matricula", novaMatricula);
+                        }}
+                      >
+                        <span className="material-icons text-sm">refresh</span>
+                      </Button>
+                    </div>
                     <FormMessage className="text-xs" />
                   </FormItem>
                 )}
