@@ -300,43 +300,41 @@ export default function CardForm({ onSuccessfulSubmit }: CardFormProps) {
                 )}
               />
               
-              <div className="grid grid-cols-2 gap-4">
-                <FormField
-                  control={form.control}
-                  name="dataNascimento"
-                  render={({ field }) => (
-                    <FormItem className="transition-all duration-200 hover:translate-x-1">
-                      <FormLabel className="text-sm font-medium">Data de Nascimento *</FormLabel>
-                      <FormControl>
-                        <Input 
-                          type="date" 
-                          className="rounded-lg border-input/60 focus:border-primary/40" 
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs" />
-                    </FormItem>
-                  )}
-                />
-                
-                <FormField
-                  control={form.control}
-                  name="validade"
-                  render={({ field }) => (
-                    <FormItem className="transition-all duration-200 hover:translate-x-1">
-                      <FormLabel className="text-sm font-medium">Validade *</FormLabel>
-                      <FormControl>
-                        <Input 
-                          type="date" 
-                          className="rounded-lg border-input/60 focus:border-primary/40" 
-                          {...field} 
-                        />
-                      </FormControl>
-                      <FormMessage className="text-xs" />
-                    </FormItem>
-                  )}
-                />
-              </div>
+              <FormField
+                control={form.control}
+                name="dataNascimento"
+                render={({ field }) => (
+                  <FormItem className="transition-all duration-200 hover:translate-x-1">
+                    <FormLabel className="text-sm font-medium">Data de Nascimento *</FormLabel>
+                    <FormControl>
+                      <Input 
+                        type="date" 
+                        className="rounded-lg border-input/60 focus:border-primary/40" 
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="validade"
+                render={({ field }) => (
+                  <FormItem className="transition-all duration-200 hover:translate-x-1">
+                    <FormLabel className="text-sm font-medium">Validade *</FormLabel>
+                    <FormControl>
+                      <Input 
+                        type="date" 
+                        className="rounded-lg border-input/60 focus:border-primary/40" 
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
               
               <FormField
                 control={form.control}
