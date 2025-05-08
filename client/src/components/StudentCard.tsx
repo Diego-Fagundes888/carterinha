@@ -139,7 +139,7 @@ export default function StudentCard({ student, example = false, miniVersion = fa
       </motion.div>
       
       <motion.div className="card-face card-back">
-        <div className="p-8 h-full flex flex-col bg-white">
+        <div className="card-back-content p-8 h-full flex flex-col bg-white">
           {/* Header */}
           <div className="bg-gradient-to-r from-primary to-accent py-4 px-4 text-white text-center mb-6 rounded-lg">
             <h4 className="font-card font-bold tracking-wide text-lg">VERIFICAÇÃO DIGITAL</h4>

@@ -52,6 +52,15 @@
     transform: rotateY(0deg);
     z-index: 3;
   }
+  
+  /* Fix para o conteúdo do verso do cartão */
+  .card-back-content {
+    transform: rotateY(180deg);
+  }
+  
+  .student-card.flipped .card-back-content {
+    transform: rotateY(0deg);
+  }
 
   .font-card {
     font-family: 'Roboto Condensed', sans-serif;
