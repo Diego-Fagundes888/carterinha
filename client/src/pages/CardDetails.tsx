@@ -185,14 +185,14 @@ export default function CardDetails() {
       <Card className="mb-8 overflow-hidden border-0 shadow-xl card-glow-effect bg-gradient-to-b from-background to-background/80">
         <CardContent className="p-0">
           {/* Header com gradiente e badge de sucesso */}
-          <div className="bg-gradient-to-r from-primary/10 to-accent/10 p-6 relative overflow-hidden confetti-bg">
+          <div className="bg-white p-6 relative overflow-hidden border-b">
             <div className="flex flex-wrap justify-between items-center gap-4">
               <div className="flex flex-col">
-                <span className="success-badge text-white text-xs font-bold py-1.5 px-4 rounded-full inline-flex items-center w-fit mb-3">
-                  <CheckCircle2 className="w-3.5 h-3.5 mr-1.5" /> CARTEIRINHA EMITIDA
+                <span className="success-badge text-white text-sm font-bold py-2 px-4 rounded-full inline-flex items-center w-fit mb-3 shadow-sm">
+                  <CheckCircle2 className="w-4 h-4 mr-1.5" /> CARTEIRINHA EMITIDA
                 </span>
-                <h3 className="text-2xl font-bold">Carteirinha Gerada com Sucesso!</h3>
-                <p className="text-gray-600 mt-2 max-w-xl">
+                <h3 className="text-2xl font-bold text-gray-900">Carteirinha Gerada com Sucesso!</h3>
+                <p className="text-gray-800 mt-2 max-w-xl text-base">
                   Sua carteirinha digital está pronta para uso. Você pode apresentá-la em seu dispositivo móvel ou imprimi-la quando necessário.
                 </p>
               </div>
@@ -210,58 +210,58 @@ export default function CardDetails() {
             </motion.div>
             
             <motion.div 
-              className="mt-10 text-center max-w-md mx-auto bg-accent/5 p-5 rounded-xl border border-border/40"
+              className="mt-10 text-center max-w-md mx-auto bg-white shadow-md p-6 rounded-xl border border-primary/20"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}
             >
-              <div className="flex items-center justify-center mb-2 text-accent">
-                <QrCode className="w-5 h-5 mr-2" />
-                <h4 className="font-bold">Link para verificação:</h4>
+              <div className="flex items-center justify-center mb-3 text-accent">
+                <QrCode className="w-6 h-6 mr-2" />
+                <h4 className="font-bold text-lg text-gray-900">Link para verificação</h4>
               </div>
-              <p className="text-primary font-medium break-all bg-white/50 p-3 rounded-lg">
+              <div className="text-gray-900 font-medium break-all bg-accent/5 p-4 rounded-lg border border-accent/20">
                 {`${window.location.origin}/verificar/${carteirinha.qrId}`}
-              </p>
-              <p className="text-sm text-muted-foreground mt-3">
-                Este link pode ser usado para verificar a autenticidade da sua carteirinha.
+              </div>
+              <p className="text-gray-700 mt-4 text-sm">
+                Este link pode ser usado para verificar a autenticidade da sua carteirinha digital.
               </p>
             </motion.div>
           </div>
           
           {/* Informações adicionais */}
           <div className="px-6 pb-6">
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4 mt-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-8">
               <motion.div 
-                className="bg-primary/5 p-4 rounded-lg border border-primary/10 text-center"
+                className="bg-white p-5 rounded-xl border border-primary/20 text-center shadow-md"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.4, duration: 0.5 }}
               >
-                <span className="material-icons text-primary text-2xl mb-2">phone_android</span>
-                <h4 className="font-bold text-sm mb-1">Disponível em qualquer dispositivo</h4>
-                <p className="text-xs text-muted-foreground">Acesse sua carteirinha de qualquer lugar</p>
+                <span className="material-icons text-primary text-3xl mb-3">phone_android</span>
+                <h4 className="font-bold text-base mb-2 text-gray-900">Disponível em qualquer dispositivo</h4>
+                <p className="text-sm text-gray-700">Acesse sua carteirinha de qualquer lugar a qualquer momento</p>
               </motion.div>
               
               <motion.div 
-                className="bg-accent/5 p-4 rounded-lg border border-accent/10 text-center"
+                className="bg-white p-5 rounded-xl border border-accent/20 text-center shadow-md"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.5, duration: 0.5 }}
               >
-                <span className="material-icons text-accent text-2xl mb-2">verified</span>
-                <h4 className="font-bold text-sm mb-1">Verificação segura</h4>
-                <p className="text-xs text-muted-foreground">QR Code com validação em tempo real</p>
+                <span className="material-icons text-accent text-3xl mb-3">verified</span>
+                <h4 className="font-bold text-base mb-2 text-gray-900">Verificação segura</h4>
+                <p className="text-sm text-gray-700">QR Code com validação em tempo real para maior segurança</p>
               </motion.div>
               
               <motion.div 
-                className="bg-primary/5 p-4 rounded-lg border border-primary/10 text-center"
+                className="bg-white p-5 rounded-xl border border-primary/20 text-center shadow-md"
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 0.6, duration: 0.5 }}
               >
-                <span className="material-icons text-primary text-2xl mb-2">print</span>
-                <h4 className="font-bold text-sm mb-1">Imprima quando precisar</h4>
-                <p className="text-xs text-muted-foreground">Versão física sempre disponível</p>
+                <span className="material-icons text-primary text-3xl mb-3">print</span>
+                <h4 className="font-bold text-base mb-2 text-gray-900">Imprima quando precisar</h4>
+                <p className="text-sm text-gray-700">Versão física sempre disponível para impressão</p>
               </motion.div>
             </div>
           </div>
