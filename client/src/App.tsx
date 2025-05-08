@@ -22,7 +22,7 @@ function Router() {
             <Route path="/carteirinha/:id" component={CardDetails} />
             <Route path="/verificar/:qrId" component={VerifyCard} />
             <Route path="/admin" component={Admin} />
-            <Route path="/admin/:id" component={AdminCardDetails} />
+            <Route path="/admin/carteirinha/:id" component={AdminCardDetails} />
             <Route component={NotFound} />
           </Switch>
         </AnimatePresence>
