@@ -44,7 +44,7 @@ export default function StudentCardNew({ student, example = false, miniVersion =
                 <BadgeCheck className="w-3.5 h-3.5 mr-1" /> ESTUDANTE
               </div>
               <h4 className="font-card font-bold text-xl mt-2 tracking-wide text-foreground/90 break-words hyphens-auto max-w-[240px]">
-                {student.instituicao || "ENAP"}
+                {student.instituicao || "USP"}
               </h4>
             </div>
             <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20">
