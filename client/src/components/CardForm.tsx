@@ -55,7 +55,7 @@ export default function CardForm({ onSuccessfulSubmit }: CardFormProps) {
   });
   
   const mutation = useMutation({
-    mutationFn: async (data: FormData) => {
+    mutationFn: async (data: FormData | object) => {
       const response = await apiRequest('POST', '/api/carteirinhas', data);
       return await response.json();
     },
@@ -113,30 +113,36 @@ export default function CardForm({ onSuccessfulSubmit }: CardFormProps) {
       return;
     }
     
-    const formData = new FormData();
-    Object.entries(values).forEach(([key, value]) => {
-      formData.append(key, value);
-    });
-    
-    // Corrigir o envio da foto para o servidor
-    if (photoFile) {
-      formData.append("foto", photoFile);
+    try {
+      // Enviar os dados como objeto JSON para facilitar a manipulação no servidor
+      const jsonData = {
+        ...values,
+        fotoBase64: photoPreview // Sempre usar o preview como base64 que já foi convertido pelo FileReader
+      };
       
-      // Verificar se a imagem foi realmente adicionada
-      console.log("Foto adicionada ao FormData:", photoFile.name, photoFile.size);
-    } else if (photoPreview) {
-      // Certificando que o base64 esteja sendo enviado corretamente
-      const base64Data = photoPreview.split(",")[1] ? photoPreview : photoPreview;
-      formData.append("fotoBase64", base64Data);
-      console.log("Base64 adicionado ao FormData");
+      // Garantir que a foto base64 está sendo enviada corretamente
+      if (!jsonData.fotoBase64 || jsonData.fotoBase64.length < 100) {
+        toast({
+          title: "Erro com a imagem",
+          description: "A imagem não foi processada corretamente. Tente selecionar novamente.",
+          variant: "destructive",
+        });
+        return;
+      }
+      
+      console.log("Enviando dados JSON com os campos:", Object.keys(jsonData).join(", "));
+      console.log("A foto base64 tem comprimento:", jsonData.fotoBase64.length);
+      
+      // Usar o mutation com JSON
+      mutation.mutate(jsonData);
+    } catch (error) {
+      console.error("Erro ao preparar dados do formulário:", error);
+      toast({
+        title: "Erro ao processar formulário",
+        description: "Ocorreu um erro ao processar os dados. Tente novamente.",
+        variant: "destructive",
+      });
     }
-    
-    // Para debug
-    for (const pair of formData.entries()) {
-      console.log(`FormData contém: ${pair[0]}: ${pair[1] instanceof File ? `Arquivo: ${pair[1].name}` : 'Valor presente'}`);
-    }
-    
-    mutation.mutate(formData);
   };
   
   // Formatar CPF enquanto digita

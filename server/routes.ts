@@ -68,16 +68,31 @@ export async function registerRoutes(app: Express): Promise<Server> {
       // Processar a foto (em um caso real, salvariamos o arquivo)
       let fotoUrl = "";
       
-      if (req.file) {
+      // Logs detalhados para debug
+      console.log("Tipo de conteúdo:", req.headers['content-type']);
+      console.log("Campos recebidos na requisição:", Object.keys(req.body));
+      console.log("Arquivo recebido:", req.file ? "Sim" : "Não");
+      
+      // Verificar se o cabeçalho indica que estamos lidando com JSON
+      const isJsonRequest = req.headers['content-type']?.includes('application/json');
+      console.log("É uma requisição JSON?", isJsonRequest ? "SIM" : "NÃO");
+      
+      if (isJsonRequest && req.body.fotoBase64) {
+        // JSON com foto em base64
+        fotoUrl = req.body.fotoBase64;
+        console.log("Foto obtida do JSON com comprimento:", fotoUrl.length);
+      } else if (req.file) {
         // Converter para base64 (em um ambiente real, seria melhor salvar o arquivo)
         const base64 = req.file.buffer.toString("base64");
         fotoUrl = `data:${req.file.mimetype};base64,${base64}`;
+        console.log("Foto processada do arquivo enviado via FormData");
       } else if (req.body.fotoBase64) {
-        // Caso a foto já venha como base64
+        // Caso a foto já venha como base64 via FormData
         fotoUrl = req.body.fotoBase64;
+        console.log("Foto obtida de base64 via FormData com comprimento:", fotoUrl.length);
       } else {
-        console.log("Corpo da requisição:", req.body);
-        console.log("Arquivos recebidos:", req.file);
+        console.log("Erro: Nenhuma foto encontrada");
+        console.log("Campos disponíveis:", Object.keys(req.body).join(", "));
         return res.status(400).json({ message: "A foto é obrigatória" });
       }
       
