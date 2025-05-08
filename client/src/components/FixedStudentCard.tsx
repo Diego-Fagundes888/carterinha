@@ -27,11 +27,10 @@ export default function FixedStudentCard({ student, example = false, miniVersion
   };
 
   return (
-    <div className={`card-container relative ${miniVersion ? 'w-full max-w-[300px] h-[500px]' : 'w-full max-w-[400px] h-[600px]'} mx-auto`}>
+    <div className={`card-container ${miniVersion ? 'w-full max-w-[300px] h-[500px]' : 'w-full max-w-[400px] h-[600px]'} mx-auto`}>
       <div 
         className={`card-3d ${isFlipped ? 'is-flipped' : ''}`}
         onClick={handleFlip}
-        style={{ height: "100%" }}
       >
         <div className="card-face card-front shine-effect">
           <div className="p-4 sm:p-8 h-full flex flex-col">
