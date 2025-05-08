@@ -27,12 +27,13 @@ export default function FixedStudentCard({ student, example = false, miniVersion
   };
 
   return (
-    <div className={`card-container relative ${miniVersion ? 'w-full max-w-[300px] h-[470px]' : 'w-full max-w-[400px] h-[650px]'} mx-auto`}>
+    <div className={`card-container relative ${miniVersion ? 'w-full max-w-[300px] h-[500px]' : 'w-full max-w-[400px] h-[600px]'} mx-auto`}>
       <div 
         className={`card-3d ${isFlipped ? 'is-flipped' : ''}`}
         onClick={handleFlip}
+        style={{ height: "100%" }}
       >
-        <div className="card-face card-front shine-effect overflow-visible">
+        <div className="card-face card-front shine-effect">
           <div className="p-4 sm:p-8 h-full flex flex-col">
             {/* Header */}
             <div className="flex justify-between items-start mb-3 sm:mb-5">
@@ -133,7 +134,7 @@ export default function FixedStudentCard({ student, example = false, miniVersion
           </div>
         </div>
         
-        <div className="card-face card-back shine-effect overflow-visible">
+        <div className="card-face card-back shine-effect">
           <div className="p-4 sm:p-8 h-full flex flex-col bg-white">
             {/* Header */}
             <div className="bg-gradient-to-r from-primary to-accent py-3 px-3 sm:py-4 sm:px-4 text-white text-center mb-4 sm:mb-6 rounded-lg">

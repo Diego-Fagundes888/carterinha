@@ -36,6 +36,7 @@
     backface-visibility: hidden;
     border-radius: 1rem;
     overflow: hidden;
+    transform-style: preserve-3d;
   }
   
   .card-front {
@@ -48,6 +49,8 @@
     background: white;
     border: 1px solid rgba(var(--card));
     transform: rotateY(180deg);
+    top: 0;
+    left: 0;
   }
 
   .font-card {
