@@ -159,171 +159,213 @@ export default function CardForm({ onSuccessfulSubmit }: CardFormProps) {
   };
   
   return (
-    <div>
-      <h3 className="text-xl font-heading font-bold text-gray-900 mb-6">Gerar Nova Carteirinha</h3>
+    <div className="animate-in slide-in-from-bottom-4 duration-700">
+      <h3 className="animated-gradient-text text-xl font-bold mb-6">Gerar Nova Carteirinha</h3>
       
       <Form {...form}>
-        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-          <FormField
-            control={form.control}
-            name="nome"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Nome Completo *</FormLabel>
-                <FormControl>
-                  <Input placeholder="Digite seu nome completo" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-          <FormField
-            control={form.control}
-            name="matricula"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Matrícula *</FormLabel>
-                <FormControl>
-                  <Input placeholder="Digite seu número de matrícula" {...field} />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-          <FormField
-            control={form.control}
-            name="curso"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>Curso *</FormLabel>
-                <Select 
-                  onValueChange={field.onChange} 
-                  defaultValue={field.value}
-                >
-                  <FormControl>
-                    <SelectTrigger>
-                      <SelectValue placeholder="Selecione seu curso" />
-                    </SelectTrigger>
-                  </FormControl>
-                  <SelectContent>
-                    <SelectItem value="Engenharia de Software">Engenharia de Software</SelectItem>
-                    <SelectItem value="Análise e Des. de Sistemas">Análise e Des. de Sistemas</SelectItem>
-                    <SelectItem value="Direito">Direito</SelectItem>
-                    <SelectItem value="Medicina">Medicina</SelectItem>
-                    <SelectItem value="Administração">Administração</SelectItem>
-                  </SelectContent>
-                </Select>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-            <FormField
-              control={form.control}
-              name="dataNascimento"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Data de Nascimento *</FormLabel>
-                  <FormControl>
-                    <Input type="date" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-            
-            <FormField
-              control={form.control}
-              name="validade"
-              render={({ field }) => (
-                <FormItem>
-                  <FormLabel>Validade *</FormLabel>
-                  <FormControl>
-                    <Input type="date" {...field} />
-                  </FormControl>
-                  <FormMessage />
-                </FormItem>
-              )}
-            />
-          </div>
-          
-          <FormField
-            control={form.control}
-            name="cpf"
-            render={({ field }) => (
-              <FormItem>
-                <FormLabel>CPF *</FormLabel>
-                <FormControl>
-                  <Input 
-                    placeholder="000.000.000-00" 
-                    value={field.value}
-                    onChange={(e) => {
-                      field.onChange(formatCPF(e.target.value));
-                    }}
-                  />
-                </FormControl>
-                <FormMessage />
-              </FormItem>
-            )}
-          />
-          
-          <div>
-            <FormLabel>Foto *</FormLabel>
-            <div className="flex items-center space-x-4 mt-1">
-              <div className="w-24 h-32 bg-gray-100 border-2 border-dashed border-gray-300 rounded-lg flex items-center justify-center">
-                {photoPreview ? (
-                  <img 
-                    src={photoPreview} 
-                    alt="Prévia da foto" 
-                    className="w-full h-full object-cover rounded-lg"
-                  />
-                ) : (
-                  <div className="text-center p-1">
-                    <span className="material-icons text-gray-400 text-2xl">add_photo_alternate</span>
-                    <div className="text-xs text-gray-500 mt-1">Nenhuma foto</div>
-                  </div>
+        <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Lado esquerdo do formulário (dados pessoais) */}
+            <div className="space-y-6">
+              <FormField
+                control={form.control}
+                name="nome"
+                render={({ field }) => (
+                  <FormItem className="transition-all duration-200 hover:translate-x-1">
+                    <FormLabel className="text-sm font-medium">Nome Completo *</FormLabel>
+                    <FormControl>
+                      <Input 
+                        placeholder="Digite seu nome completo" 
+                        className="rounded-lg border-input/60 focus:border-primary/40" 
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
                 )}
-              </div>
-              <div className="flex-1">
-                <input 
-                  type="file" 
-                  id="photo" 
-                  name="photo" 
-                  accept="image/jpeg,image/jpg,image/png" 
-                  className="hidden" 
-                  onChange={handlePhotoChange}
+              />
+              
+              <FormField
+                control={form.control}
+                name="matricula"
+                render={({ field }) => (
+                  <FormItem className="transition-all duration-200 hover:translate-x-1">
+                    <FormLabel className="text-sm font-medium">Matrícula *</FormLabel>
+                    <FormControl>
+                      <Input 
+                        placeholder="Digite seu número de matrícula" 
+                        className="rounded-lg border-input/60 focus:border-primary/40" 
+                        {...field} 
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="curso"
+                render={({ field }) => (
+                  <FormItem className="transition-all duration-200 hover:translate-x-1">
+                    <FormLabel className="text-sm font-medium">Curso *</FormLabel>
+                    <Select 
+                      onValueChange={field.onChange} 
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="rounded-lg border-input/60 focus:border-primary/40">
+                          <SelectValue placeholder="Selecione seu curso" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Engenharia de Software">Engenharia de Software</SelectItem>
+                        <SelectItem value="Análise e Des. de Sistemas">Análise e Des. de Sistemas</SelectItem>
+                        <SelectItem value="Direito">Direito</SelectItem>
+                        <SelectItem value="Medicina">Medicina</SelectItem>
+                        <SelectItem value="Administração">Administração</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+              
+              <div className="grid grid-cols-2 gap-4">
+                <FormField
+                  control={form.control}
+                  name="dataNascimento"
+                  render={({ field }) => (
+                    <FormItem className="transition-all duration-200 hover:translate-x-1">
+                      <FormLabel className="text-sm font-medium">Data de Nascimento *</FormLabel>
+                      <FormControl>
+                        <Input 
+                          type="date" 
+                          className="rounded-lg border-input/60 focus:border-primary/40" 
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
                 />
-                <Button 
-                  type="button" 
-                  variant="outline" 
-                  className="w-full mb-2"
-                  onClick={() => document.getElementById('photo')?.click()}
-                >
-                  Escolher Foto
-                </Button>
-                <p className="text-xs text-gray-500">Formatos suportados: JPG, PNG. Tamanho máximo: 5MB</p>
+                
+                <FormField
+                  control={form.control}
+                  name="validade"
+                  render={({ field }) => (
+                    <FormItem className="transition-all duration-200 hover:translate-x-1">
+                      <FormLabel className="text-sm font-medium">Validade *</FormLabel>
+                      <FormControl>
+                        <Input 
+                          type="date" 
+                          className="rounded-lg border-input/60 focus:border-primary/40" 
+                          {...field} 
+                        />
+                      </FormControl>
+                      <FormMessage className="text-xs" />
+                    </FormItem>
+                  )}
+                />
+              </div>
+              
+              <FormField
+                control={form.control}
+                name="cpf"
+                render={({ field }) => (
+                  <FormItem className="transition-all duration-200 hover:translate-x-1">
+                    <FormLabel className="text-sm font-medium">CPF *</FormLabel>
+                    <FormControl>
+                      <Input 
+                        placeholder="000.000.000-00" 
+                        className="rounded-lg border-input/60 focus:border-primary/40" 
+                        value={field.value}
+                        onChange={(e) => {
+                          field.onChange(formatCPF(e.target.value));
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage className="text-xs" />
+                  </FormItem>
+                )}
+              />
+            </div>
+            
+            {/* Lado direito do formulário (upload de foto) */}
+            <div className="flex flex-col justify-center space-y-6">
+              <div className="bg-accent/5 rounded-xl p-6 border border-border/40">
+                <FormLabel className="text-sm font-medium block mb-4">Foto *</FormLabel>
+                <div className="flex flex-col items-center space-y-4">
+                  <div className="w-36 h-48 bg-background rounded-lg overflow-hidden shadow-sm border-2 border-dashed border-primary/20 hover:border-primary/50 transition-colors duration-300">
+                    {photoPreview ? (
+                      <img 
+                        src={photoPreview} 
+                        alt="Prévia da foto" 
+                        className="w-full h-full object-cover"
+                      />
+                    ) : (
+                      <div className="w-full h-full flex flex-col items-center justify-center">
+                        <span className="material-icons text-muted-foreground text-4xl">add_photo_alternate</span>
+                        <div className="text-sm text-muted-foreground mt-2">Adicionar foto</div>
+                      </div>
+                    )}
+                  </div>
+                  
+                  <div className="w-full">
+                    <input 
+                      type="file" 
+                      id="photo" 
+                      name="photo" 
+                      accept="image/jpeg,image/jpg,image/png" 
+                      className="hidden" 
+                      onChange={handlePhotoChange}
+                    />
+                    <Button 
+                      type="button" 
+                      variant="outline" 
+                      className="w-full group transition-all duration-300 hover:bg-primary/10 border-primary/30"
+                      onClick={() => document.getElementById('photo')?.click()}
+                    >
+                      <span className="material-icons mr-2 group-hover:text-primary text-muted-foreground">upload</span>
+                      Escolher Foto
+                    </Button>
+                    <p className="text-xs text-muted-foreground mt-2 text-center">
+                      Formatos suportados: JPG, PNG. Tamanho máximo: 10MB
+                    </p>
+                  </div>
+                </div>
+              </div>
+              
+              <div className="bg-gradient-to-br from-primary/5 to-accent/5 rounded-xl p-4 border border-border/40">
+                <div className="text-sm text-center text-muted-foreground">
+                  <p>A foto deve seguir os padrões de <span className="font-semibold">documento oficial</span> 
+                  <br />com fundo branco ou claro e rosto claramente visível.</p>
+                </div>
               </div>
             </div>
           </div>
           
-          <div className="mt-8 flex justify-end">
-            <Button type="submit" className="flex items-center" disabled={mutation.isPending}>
-              {mutation.isPending ? (
-                <>
-                  <span className="material-icons animate-spin mr-1" style={{ fontSize: '1.25rem' }}>
-                    refresh
-                  </span>
-                  Processando...
-                </>
-              ) : (
-                <>
-                  <span className="material-icons mr-1" style={{ fontSize: '1.25rem' }}>check</span>
-                  Gerar Carteirinha
-                </>
-              )}
+          <div className="mt-10 flex justify-center md:justify-end">
+            <Button 
+              type="submit" 
+              className="relative overflow-hidden group px-8 py-6 bg-primary hover:bg-primary/90 transition-all duration-300 shadow-md" 
+              size="lg"
+              disabled={mutation.isPending}
+            >
+              <span className="absolute inset-0 w-full h-full bg-gradient-to-r from-primary to-accent opacity-0 group-hover:opacity-60 transition-opacity duration-500"></span>
+              <span className="relative flex items-center">
+                {mutation.isPending ? (
+                  <>
+                    <span className="material-icons animate-spin mr-2">refresh</span>
+                    Processando...
+                  </>
+                ) : (
+                  <>
+                    <span className="material-icons mr-2">badge</span>
+                    Gerar Carteirinha
+                  </>
+                )}
+              </span>
             </Button>
           </div>
         </form>
