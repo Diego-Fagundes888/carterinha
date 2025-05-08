@@ -76,6 +76,8 @@ export async function registerRoutes(app: Express): Promise<Server> {
         // Caso a foto já venha como base64
         fotoUrl = req.body.fotoBase64;
       } else {
+        console.log("Corpo da requisição:", req.body);
+        console.log("Arquivos recebidos:", req.file);
         return res.status(400).json({ message: "A foto é obrigatória" });
       }
       

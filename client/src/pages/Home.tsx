@@ -2,7 +2,7 @@ import { motion } from 'framer-motion';
 import { useState } from 'react';
 import CardForm from '@/components/CardForm';
 import StudentCard from '@/components/StudentCard';
-import { Dialog, DialogContent, DialogTrigger } from "@/components/ui/dialog";
+import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogTrigger } from "@/components/ui/dialog";
 import { Button } from '@/components/ui/button';
 
 export default function Home() {
@@ -32,6 +32,10 @@ export default function Home() {
             </Button>
           </DialogTrigger>
           <DialogContent className="sm:max-w-[550px]">
+            <DialogTitle>Formulário de Carteirinha</DialogTitle>
+            <DialogDescription>
+              Preencha os dados para gerar sua carteirinha digital.
+            </DialogDescription>
             <CardForm onSuccessfulSubmit={() => setOpenDialog(false)} />
           </DialogContent>
         </Dialog>

@@ -22,16 +22,21 @@ export default function Navbar() {
             </Link>
           </div>
           <nav className="hidden md:flex space-x-8 text-sm">
-            <Link href="/">
-              <a className={`px-3 py-2 transition-colors duration-150 font-medium ${isActive('/') ? 'text-primary' : 'text-gray-600 hover:text-primary'}`}>
-                Início
-              </a>
-            </Link>
-            <Link href="/admin">
-              <a className={`px-3 py-2 transition-colors duration-150 font-medium ${isActive('/admin') ? 'text-primary' : 'text-gray-600 hover:text-primary'}`}>
-                Administração
-              </a>
-            </Link>
+            {/* Corrigir o problema de nesting de <a> dentro de <a> */}
+            <div>
+              <Link href="/">
+                <span className={`px-3 py-2 transition-colors duration-150 font-medium cursor-pointer ${isActive('/') ? 'text-primary' : 'text-gray-600 hover:text-primary'}`}>
+                  Início
+                </span>
+              </Link>
+            </div>
+            <div>
+              <Link href="/admin">
+                <span className={`px-3 py-2 transition-colors duration-150 font-medium cursor-pointer ${isActive('/admin') ? 'text-primary' : 'text-gray-600 hover:text-primary'}`}>
+                  Administração
+                </span>
+              </Link>
+            </div>
           </nav>
           <button 
             className="md:hidden text-gray-600 focus:outline-none" 
@@ -54,22 +59,26 @@ export default function Navbar() {
           className="md:hidden bg-white border-b border-gray-200"
         >
           <div className="px-4 pt-2 pb-4 space-y-1">
-            <Link href="/">
-              <a 
-                className={`block px-3 py-2 rounded-md font-medium ${isActive('/') ? 'text-primary' : 'text-gray-600 hover:text-primary'}`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Início
-              </a>
-            </Link>
-            <Link href="/admin">
-              <a 
-                className={`block px-3 py-2 rounded-md font-medium ${isActive('/admin') ? 'text-primary' : 'text-gray-600 hover:text-primary'}`}
-                onClick={() => setMobileMenuOpen(false)}
-              >
-                Administração
-              </a>
-            </Link>
+            <div>
+              <Link href="/">
+                <span 
+                  className={`block px-3 py-2 rounded-md font-medium cursor-pointer ${isActive('/') ? 'text-primary' : 'text-gray-600 hover:text-primary'}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Início
+                </span>
+              </Link>
+            </div>
+            <div>
+              <Link href="/admin">
+                <span 
+                  className={`block px-3 py-2 rounded-md font-medium cursor-pointer ${isActive('/admin') ? 'text-primary' : 'text-gray-600 hover:text-primary'}`}
+                  onClick={() => setMobileMenuOpen(false)}
+                >
+                  Administração
+                </span>
+              </Link>
+            </div>
           </div>
         </motion.div>
       )}

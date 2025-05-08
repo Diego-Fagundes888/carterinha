@@ -118,10 +118,22 @@ export default function CardForm({ onSuccessfulSubmit }: CardFormProps) {
       formData.append(key, value);
     });
     
+    // Corrigir o envio da foto para o servidor
     if (photoFile) {
       formData.append("foto", photoFile);
+      
+      // Verificar se a imagem foi realmente adicionada
+      console.log("Foto adicionada ao FormData:", photoFile.name, photoFile.size);
     } else if (photoPreview) {
-      formData.append("fotoBase64", photoPreview);
+      // Certificando que o base64 esteja sendo enviado corretamente
+      const base64Data = photoPreview.split(",")[1] ? photoPreview : photoPreview;
+      formData.append("fotoBase64", base64Data);
+      console.log("Base64 adicionado ao FormData");
+    }
+    
+    // Para debug
+    for (const pair of formData.entries()) {
+      console.log(`FormData contém: ${pair[0]}: ${pair[1] instanceof File ? `Arquivo: ${pair[1].name}` : 'Valor presente'}`);
     }
     
     mutation.mutate(formData);
