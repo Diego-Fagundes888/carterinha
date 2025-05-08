@@ -49,137 +49,10 @@ export default function Admin() {
   const [deleteId, setDeleteId] = useState<number | null>(null);
   const [openDeleteDialog, setOpenDeleteDialog] = useState(false);
   
-  // Hover para ações em cada linha
+  // UI state
   const [hoveredRow, setHoveredRow] = useState<number | null>(null);
-
-  // Stats
-  const [stats, setStats] = useState({
-    total: 0,
-    ativas: 0,
-    expirando: 0,
-    expiradas: 0,
-  });
-
-  // Query para listar carteirinhas
-  const { data, isLoading, refetch } = useQuery({
-    queryKey: ['/api/carteirinhas', nome, matricula, curso, validade, page, limit],
-    queryFn: async () => {
-      const queryParams = new URLSearchParams();
-      if (nome) queryParams.append('nome', nome);
-      if (matricula) queryParams.append('matricula', matricula);
-      if (curso && curso !== 'todos') queryParams.append('curso', curso);
-      if (validade && validade !== 'todas') queryParams.append('validade', validade);
-      if (activeTab !== 'todos') queryParams.append('validade', activeTab);
-      queryParams.append('page', page.toString());
-      queryParams.append('limit', limit.toString());
-      
-      const res = await fetch(`/api/carteirinhas?${queryParams.toString()}`);
-      if (!res.ok) throw new Error('Erro ao buscar carteirinhas');
-      return await res.json();
-    }
-  });
-
-  // Atualizar estatísticas
-  useEffect(() => {
-    if (data?.data) {
-      const today = new Date();
-      const expiringDate = addDays(today, 30);
-      
-      const ativas = data.data.filter((c: any) => {
-        const validity = new Date(c.validade);
-        return isAfter(validity, today);
-      }).length;
-      
-      const expirando = data.data.filter((c: any) => {
-        const validity = new Date(c.validade);
-        return isAfter(validity, today) && isBefore(validity, expiringDate);
-      }).length;
-      
-      const expiradas = data.data.filter((c: any) => {
-        const validity = new Date(c.validade);
-        return isBefore(validity, today);
-      }).length;
-      
-      setStats({
-        total: data.total,
-        ativas,
-        expirando,
-        expiradas
-      });
-    }
-  }, [data]);
-
-  const handleChangeTab = (value: string) => {
-    setActiveTab(value);
-    setPage(1);
-    if (value === 'todos') {
-      setValidade('todas');
-    } else {
-      setValidade(value);
-    }
-  };
-
-  const handleViewDetails = (id: number) => {
-    navigate(`/admin/${id}`);
-  };
-
-  const handleDeleteClick = (id: number) => {
-    setDeleteId(id);
-    setOpenDeleteDialog(true);
-  };
-
-  const handleConfirmDelete = async () => {
-    if (deleteId) {
-      try {
-        await apiRequest('DELETE', `/api/carteirinhas/${deleteId}`, undefined);
-        toast({
-          title: "Carteirinha excluída",
-          description: "A carteirinha foi excluída com sucesso.",
-        });
-        // Invalidar a query para recarregar os dados
-        queryClient.invalidateQueries({ queryKey: ['/api/carteirinhas'] });
-        setOpenDeleteDialog(false);
-      } catch (error) {
-        toast({
-          title: "Erro ao excluir",
-          description: "Ocorreu um erro ao excluir a carteirinha.",
-          variant: "destructive",
-        });
-      }
-    }
-  };
-
-  // Resolver o status de validade de uma carteirinha
-  const getValidityStatus = (validityDate: string) => {
-    const today = new Date();
-    const validity = new Date(validityDate);
-    const expiringDate = addDays(today, 30);
-    
-    if (isBefore(validity, today)) {
-      return { 
-        status: 'expired', 
-        label: 'Expirada', 
-        className: 'bg-red-100 text-red-800 border border-red-200' ,
-        icon: <Calendar className="w-3 h-3 mr-1" />
-      };
-    } else if (isBefore(validity, expiringDate)) {
-      return { 
-        status: 'expiring', 
-        label: 'Expirando', 
-        className: 'bg-yellow-100 text-yellow-800 border border-yellow-200',
-        icon: <Calendar className="w-3 h-3 mr-1" />
-      };
-    } else {
-      return { 
-        status: 'valid', 
-        label: 'Válida', 
-        className: 'bg-green-100 text-green-800 border border-green-200',
-        icon: <UserCheck className="w-3 h-3 mr-1" />
-      };
-    }
-  };
-
-  // Variantes para animações
+  
+  // Animation variants
   const container = {
     hidden: { opacity: 0 },
     show: {
@@ -191,11 +64,65 @@ export default function Admin() {
   };
   
   const item = {
-    hidden: { opacity: 0, y: 20 },
-    show: { opacity: 1, y: 0 }
+    hidden: { y: 20, opacity: 0 },
+    show: { y: 0, opacity: 1 }
   };
-
-  // Função para limpar os filtros
+  
+  // Reset to page 1 when filters change
+  useEffect(() => {
+    setPage(1);
+  }, [nome, matricula, curso, validade, activeTab]);
+  
+  // Query params for API request
+  const getQueryParams = () => {
+    const params: Record<string, string> = {
+      page: page.toString(),
+      limit: limit.toString(),
+    };
+    
+    if (nome) params.nome = nome;
+    if (matricula) params.matricula = matricula;
+    if (curso !== 'todos') params.curso = curso;
+    
+    // Handle validity filter
+    if (activeTab === 'valid' || validade === 'valid') {
+      params.valido = 'true';
+    } else if (activeTab === 'expired' || validade === 'expired') {
+      params.expirado = 'true';
+    } else if (activeTab === 'expiring' || validade === 'expiring') {
+      params.expirando = 'true';
+    }
+    
+    return params;
+  };
+  
+  // Fetch data from API
+  const { data, isLoading, refetch } = useQuery({
+    queryKey: ['/api/carteirinhas', getQueryParams()],
+  });
+  
+  // Statistic counts
+  const stats = {
+    total: data?.total || 0,
+    ativas: data?.data?.filter((item: any) => isAfter(new Date(item.validade), new Date())).length || 0,
+    expirando: data?.data?.filter((item: any) => {
+      return isAfter(new Date(item.validade), new Date()) && 
+        isBefore(new Date(item.validade), addDays(new Date(), 30));
+    }).length || 0,
+    expiradas: data?.data?.filter((item: any) => isBefore(new Date(item.validade), new Date())).length || 0
+  };
+  
+  // Handle changing the tab
+  const handleChangeTab = (value: string) => {
+    setActiveTab(value);
+    
+    // Reset other filters when changing tab
+    if (value !== 'todos') {
+      setValidade('todas');
+    }
+  };
+  
+  // Clear all filters
   const clearFilters = () => {
     setNome('');
     setMatricula('');
@@ -205,116 +132,176 @@ export default function Admin() {
     setPage(1);
   };
   
+  // View details page
+  const handleViewDetails = (id: number) => {
+    navigate(`/admin/carteirinha/${id}`);
+  };
+  
+  // Delete carteirinha
+  const handleDeleteClick = (id: number) => {
+    setDeleteId(id);
+    setOpenDeleteDialog(true);
+  };
+  
+  const handleConfirmDelete = async () => {
+    if (deleteId) {
+      try {
+        await apiRequest(`/api/carteirinhas/${deleteId}`, { method: 'DELETE' });
+        queryClient.invalidateQueries({ queryKey: ['/api/carteirinhas'] });
+        toast({
+          title: "Carteirinha excluída",
+          description: "A carteirinha foi excluída com sucesso",
+          variant: "default",
+        });
+      } catch (error) {
+        toast({
+          title: "Erro ao excluir",
+          description: "Não foi possível excluir a carteirinha",
+          variant: "destructive",
+        });
+      }
+    }
+    setOpenDeleteDialog(false);
+  };
+  
+  // Helper function to determine status color and icon based on validity
+  const getValidityStatus = (validityDate: string) => {
+    const today = new Date();
+    const expiry = new Date(validityDate);
+    
+    if (isBefore(expiry, today)) {
+      return {
+        label: "Expirada",
+        className: "bg-red-100 text-red-800",
+        icon: <Calendar className="w-3 h-3 mr-1 text-red-700" />
+      };
+    }
+    
+    // Expiring in 30 days
+    if (isBefore(expiry, addDays(today, 30))) {
+      return {
+        label: "Expirando em breve",
+        className: "bg-yellow-100 text-yellow-800",
+        icon: <Calendar className="w-3 h-3 mr-1 text-yellow-700" />
+      };
+    }
+    
+    return {
+      label: "Válida",
+      className: "bg-green-100 text-green-800",
+      icon: <CheckCircle className="w-3 h-3 mr-1 text-green-700" />
+    };
+  };
+  
   return (
-    <motion.div
+    <motion.div 
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      transition={{ duration: 0.5 }}
-      className="max-w-7xl mx-auto"
+      transition={{ duration: 0.6 }}
+      className="max-w-7xl mx-auto pb-10 px-4"
     >
-      <div className="relative rounded-xl overflow-hidden mb-6 bg-gradient-to-r from-primary/90 to-accent/90 p-8 text-white shadow-lg">
-        <div className="absolute inset-0 bg-grid-white/10 [mask-image:linear-gradient(0deg,#ffffff10,#ffffff80)] bg-fixed"></div>
-        <div className="relative">
+      {/* Header */}
+      <div className="bg-gradient-to-r from-primary to-accent mb-8 rounded-xl overflow-hidden">
+        <div className="relative py-12 px-8 bg-grid-white/10 text-white">
           <motion.div 
             initial={{ opacity: 0, y: -20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ duration: 0.5, delay: 0.1 }}
-            className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4"
+            transition={{ delay: 0.1, duration: 0.5 }}
           >
-            <div>
-              <h1 className="text-3xl font-bold tracking-tight">
-                Gerenciamento de Carteirinhas
-              </h1>
-              <p className="text-white/80 max-w-xl mt-2">
-                Gerencie todas as carteirinhas estudantis, visualize detalhes e monitore status de validade.
-              </p>
+            <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between">
+              <div>
+                <h1 className="text-2xl font-bold mb-2">Gerenciamento de Carteirinhas</h1>
+                <p className="text-white/80 max-w-xl mt-2">
+                  Gerencie todas as carteirinhas estudantis, visualize detalhes e monitore status de validade.
+                </p>
+              </div>
+              
+              <div className="flex flex-wrap gap-2 mt-4 sm:mt-0">
+                <Button 
+                  onClick={() => navigate('/') }
+                  variant="secondary" 
+                  size="sm" 
+                  className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-0"
+                >
+                  <User className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                  <span className="text-xs sm:text-sm">Área do Aluno</span>
+                </Button>
+                <Button 
+                  onClick={() => refetch()}
+                  variant="secondary" 
+                  size="sm" 
+                  className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-0"
+                >
+                  <RefreshCw className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                  <span className="text-xs sm:text-sm">Atualizar</span>
+                </Button>
+                <Button 
+                  onClick={() => navigate('/')}
+                  variant="secondary" 
+                  size="sm" 
+                  className="bg-primary text-white hover:bg-primary/80 border-0"
+                >
+                  <PlusCircle className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
+                  <span className="text-xs sm:text-sm">Nova Carteirinha</span>
+                </Button>
+              </div>
             </div>
             
-            <div className="flex space-x-2">
-              <Button 
-                onClick={() => navigate('/') }
-                variant="secondary" 
-                size="sm" 
-                className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-0"
-              >
-                <User className="w-4 h-4 mr-1" />
-                Área do Aluno
-              </Button>
-              <Button 
-                onClick={() => refetch()}
-                variant="secondary" 
-                size="sm" 
-                className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-0"
-              >
-                <RefreshCw className="w-4 h-4 mr-1" />
-                Atualizar
-              </Button>
-              <Button 
-                onClick={() => navigate('/')}
-                variant="secondary" 
-                size="sm" 
-                className="bg-primary text-white hover:bg-primary/80 border-0"
-              >
-                <PlusCircle className="w-4 h-4 mr-1" />
-                Nova Carteirinha
-              </Button>
-            </div>
-          </motion.div>
-          
-          {/* Stats Cards */}
-          <motion.div 
-            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6"
-            variants={container}
-            initial="hidden"
-            animate="show"
-          >
-            <motion.div variants={item} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/20 transition-all">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-white/70 text-sm font-medium">Total de Carteirinhas</p>
-                  <h3 className="text-2xl font-bold mt-1">{stats.total}</h3>
+            {/* Stats Cards */}
+            <motion.div 
+              className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-6"
+              variants={container}
+              initial="hidden"
+              animate="show"
+            >
+              <motion.div variants={item} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/20 transition-all">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-white/70 text-sm font-medium">Total de Carteirinhas</p>
+                    <h3 className="text-2xl font-bold mt-1">{stats.total}</h3>
+                  </div>
+                  <div className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
+                    <FileSearch className="h-5 w-5" />
+                  </div>
                 </div>
-                <div className="h-10 w-10 rounded-full bg-white/20 flex items-center justify-center">
-                  <FileSearch className="h-5 w-5" />
+              </motion.div>
+              
+              <motion.div variants={item} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/20 transition-all">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-white/70 text-sm font-medium">Carteirinhas Ativas</p>
+                    <h3 className="text-2xl font-bold mt-1">{stats.ativas}</h3>
+                  </div>
+                  <div className="h-10 w-10 rounded-full bg-green-500/30 flex items-center justify-center">
+                    <UserCheck className="h-5 w-5" />
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-            
-            <motion.div variants={item} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/20 transition-all">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-white/70 text-sm font-medium">Carteirinhas Ativas</p>
-                  <h3 className="text-2xl font-bold mt-1">{stats.ativas}</h3>
+              </motion.div>
+              
+              <motion.div variants={item} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/20 transition-all">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-white/70 text-sm font-medium">Expirando em 30 dias</p>
+                    <h3 className="text-2xl font-bold mt-1">{stats.expirando}</h3>
+                  </div>
+                  <div className="h-10 w-10 rounded-full bg-yellow-500/30 flex items-center justify-center">
+                    <Calendar className="h-5 w-5" />
+                  </div>
                 </div>
-                <div className="h-10 w-10 rounded-full bg-green-500/30 flex items-center justify-center">
-                  <UserCheck className="h-5 w-5" />
+              </motion.div>
+              
+              <motion.div variants={item} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/20 transition-all">
+                <div className="flex items-center justify-between">
+                  <div>
+                    <p className="text-white/70 text-sm font-medium">Carteirinhas Expiradas</p>
+                    <h3 className="text-2xl font-bold mt-1">{stats.expiradas}</h3>
+                  </div>
+                  <div className="h-10 w-10 rounded-full bg-red-500/30 flex items-center justify-center">
+                    <Calendar className="h-5 w-5" />
+                  </div>
                 </div>
-              </div>
-            </motion.div>
-            
-            <motion.div variants={item} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/20 transition-all">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-white/70 text-sm font-medium">Expirando em 30 dias</p>
-                  <h3 className="text-2xl font-bold mt-1">{stats.expirando}</h3>
-                </div>
-                <div className="h-10 w-10 rounded-full bg-yellow-500/30 flex items-center justify-center">
-                  <Calendar className="h-5 w-5" />
-                </div>
-              </div>
-            </motion.div>
-            
-            <motion.div variants={item} className="bg-white/10 backdrop-blur-sm rounded-lg p-4 border border-white/20 hover:bg-white/20 transition-all">
-              <div className="flex items-center justify-between">
-                <div>
-                  <p className="text-white/70 text-sm font-medium">Carteirinhas Expiradas</p>
-                  <h3 className="text-2xl font-bold mt-1">{stats.expiradas}</h3>
-                </div>
-                <div className="h-10 w-10 rounded-full bg-red-500/30 flex items-center justify-center">
-                  <Calendar className="h-5 w-5" />
-                </div>
-              </div>
+              </motion.div>
             </motion.div>
           </motion.div>
         </div>
@@ -451,7 +438,8 @@ export default function Admin() {
             </div>
           ) : (
             <>
-              <div className="overflow-x-auto">
+              {/* Visualização para desktop */}
+              <div className="hidden md:block overflow-x-auto">
                 <table className="w-full divide-y divide-gray-100">
                   <thead>
                     <tr className="bg-gray-50/50">
@@ -555,6 +543,98 @@ export default function Admin() {
                     )}
                   </tbody>
                 </table>
+              </div>
+              
+              {/* Visualização para mobile */}
+              <div className="md:hidden">
+                <div className="space-y-4 px-4 py-5">
+                  {data?.data?.length > 0 ? (
+                    data.data.map((carteirinha: any, index: number) => {
+                      const validityStatus = getValidityStatus(carteirinha.validade);
+                      
+                      return (
+                        <motion.div
+                          key={carteirinha.id}
+                          className="bg-white border rounded-lg overflow-hidden shadow-sm"
+                          initial={{ opacity: 0, y: 10 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.05, duration: 0.3 }}
+                        >
+                          <div className="p-4">
+                            <div className="flex items-center mb-3">
+                              <div className="h-10 w-10 rounded-full overflow-hidden border border-gray-200 shadow-sm mr-3">
+                                <img src={carteirinha.foto} alt="" className="h-full w-full object-cover" />
+                              </div>
+                              <div className="flex-1">
+                                <div className="font-medium text-sm">{carteirinha.nome}</div>
+                                <div className="text-xs text-gray-500">ID: {carteirinha.id}</div>
+                              </div>
+                              <div>
+                                <span className={`px-2 py-1 inline-flex text-xs leading-5 font-semibold rounded-full items-center ${validityStatus.className}`}>
+                                  {validityStatus.icon}
+                                  {validityStatus.label}
+                                </span>
+                              </div>
+                            </div>
+                            
+                            <div className="grid grid-cols-2 gap-2 text-xs mb-3">
+                              <div>
+                                <div className="text-gray-500 mb-0.5">Matrícula:</div>
+                                <div className="font-medium">{carteirinha.matricula}</div>
+                              </div>
+                              <div>
+                                <div className="text-gray-500 mb-0.5">Validade:</div>
+                                <div className="font-medium">{format(new Date(carteirinha.validade), 'dd/MM/yyyy', { locale: ptBR })}</div>
+                              </div>
+                              <div>
+                                <div className="text-gray-500 mb-0.5">Curso:</div>
+                                <div className="font-medium truncate">{carteirinha.curso}</div>
+                              </div>
+                              <div>
+                                <div className="text-gray-500 mb-0.5">CPF:</div>
+                                <div className="font-medium">{carteirinha.cpf}</div>
+                              </div>
+                            </div>
+                            
+                            <div className="flex justify-between mt-3 pt-3 border-t">
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="text-primary hover:text-blue-800 hover:bg-blue-50 text-xs h-8"
+                                onClick={() => handleViewDetails(carteirinha.id)}
+                              >
+                                <Eye className="w-3 h-3 mr-1" />
+                                Detalhes
+                              </Button>
+                              <Button
+                                variant="ghost"
+                                size="sm"
+                                className="text-red-600 hover:text-red-800 hover:bg-red-50 text-xs h-8"
+                                onClick={() => handleDeleteClick(carteirinha.id)}
+                              >
+                                <Trash2 className="w-3 h-3 mr-1" />
+                                Excluir
+                              </Button>
+                            </div>
+                          </div>
+                        </motion.div>
+                      );
+                    })
+                  ) : (
+                    <div className="py-10 text-center">
+                      <div className="max-w-xs mx-auto">
+                        <FileSearch className="w-12 h-12 mx-auto text-gray-300 mb-3" />
+                        <h3 className="text-lg font-medium text-gray-900 mb-1">Nenhuma carteirinha encontrada</h3>
+                        <p className="text-gray-500 text-sm mb-3">
+                          Não foi possível encontrar registros com os filtros aplicados.
+                        </p>
+                        <Button variant="outline" size="sm" onClick={clearFilters}>
+                          Limpar filtros
+                        </Button>
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
 
               {/* Paginação */}
