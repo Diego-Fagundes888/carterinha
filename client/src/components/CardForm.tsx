@@ -6,6 +6,7 @@ import { format } from "date-fns";
 import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { Form, FormControl, FormField, FormItem, FormLabel, FormMessage } from "@/components/ui/form";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { carteirinhaValidationSchema } from "@shared/schema";
 import { apiRequest } from "@/lib/queryClient";
 import { useToast } from "@/hooks/use-toast";
@@ -18,6 +19,7 @@ const formSchema = z.object({
   nome: z.string().min(5, "O nome completo deve ter no mínimo 5 caracteres"),
   matricula: z.string().min(4, "A matrícula deve ter no mínimo 4 caracteres"),
   curso: z.string().min(3, "O curso deve ter no mínimo 3 caracteres"),
+  instituicao: z.string().min(3, "Selecione uma instituição"),
   dataNascimento: z.string().refine((val) => {
     return !isNaN(Date.parse(val));
   }, "Data de nascimento inválida"),
@@ -95,6 +97,7 @@ export default function CardForm({ onSuccessfulSubmit }: CardFormProps) {
       nome: "",
       matricula: matricula,
       curso: "",
+      instituicao: "Universidade de São Paulo (USP)",
       dataNascimento: format(new Date(), "yyyy-MM-dd"),
       validade: format(new Date(new Date().setFullYear(new Date().getFullYear() + 1)), "yyyy-MM-dd"),
       cpf: "",
@@ -296,6 +299,39 @@ export default function CardForm({ onSuccessfulSubmit }: CardFormProps) {
                     <div className="text-xs text-muted-foreground mt-1">
                       Ex: Engenharia de Software, Medicina, Direito, etc.
                     </div>
+                  </FormItem>
+                )}
+              />
+              
+              <FormField
+                control={form.control}
+                name="instituicao"
+                render={({ field }) => (
+                  <FormItem className="transition-all duration-200 hover:translate-x-1">
+                    <FormLabel className="text-sm font-medium">Instituição *</FormLabel>
+                    <Select 
+                      onValueChange={field.onChange} 
+                      defaultValue={field.value}
+                    >
+                      <FormControl>
+                        <SelectTrigger className="rounded-lg border-input/60 focus:border-primary/40">
+                          <SelectValue placeholder="Selecione a instituição" />
+                        </SelectTrigger>
+                      </FormControl>
+                      <SelectContent>
+                        <SelectItem value="Universidade de São Paulo (USP)">Universidade de São Paulo (USP)</SelectItem>
+                        <SelectItem value="Universidade Estadual de Campinas (UNICAMP)">Universidade Estadual de Campinas (UNICAMP)</SelectItem>
+                        <SelectItem value="Universidade Federal do Rio de Janeiro (UFRJ)">Universidade Federal do Rio de Janeiro (UFRJ)</SelectItem>
+                        <SelectItem value="Universidade Federal de Minas Gerais (UFMG)">Universidade Federal de Minas Gerais (UFMG)</SelectItem>
+                        <SelectItem value="Universidade de Brasília (UnB)">Universidade de Brasília (UnB)</SelectItem>
+                        <SelectItem value="Pontifícia Universidade Católica (PUC)">Pontifícia Universidade Católica (PUC)</SelectItem>
+                        <SelectItem value="Instituto Federal de Educação, Ciência e Tecnologia">Instituto Federal de Educação, Ciência e Tecnologia</SelectItem>
+                        <SelectItem value="Centro Universitário SENAC">Centro Universitário SENAC</SelectItem>
+                        <SelectItem value="Faculdade de Tecnologia do Estado (FATEC)">Faculdade de Tecnologia do Estado (FATEC)</SelectItem>
+                        <SelectItem value="Escola Técnica Estadual (ETEC)">Escola Técnica Estadual (ETEC)</SelectItem>
+                      </SelectContent>
+                    </Select>
+                    <FormMessage className="text-xs" />
                   </FormItem>
                 )}
               />

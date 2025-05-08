@@ -9,6 +9,7 @@ export const carteirinhas = pgTable("carteirinhas", {
   foto: text("foto").notNull(), // URL ou base64 da imagem
   matricula: varchar("matricula", { length: 20 }).notNull(),
   curso: text("curso").notNull(),
+  instituicao: text("instituicao").default("Universidade Exemplo"),
   validade: timestamp("validade").notNull(),
   dataNascimento: timestamp("data_nascimento").notNull(),
   cpf: varchar("cpf", { length: 14 }).notNull(),
