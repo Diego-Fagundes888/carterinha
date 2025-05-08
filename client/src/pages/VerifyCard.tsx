@@ -201,10 +201,10 @@ export default function VerifyCard() {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.2, duration: 0.5 }}
-              className="grid grid-cols-1 lg:grid-cols-3 gap-8"
+              className="grid grid-cols-1 xl:grid-cols-3 gap-4 sm:gap-8"
             >
-              {/* Coluna Esquerda - Carteirinha */}
-              <div className="lg:col-span-1">
+              {/* Carteirinha com largura completa em celulares e coluna na esquerda em desktop */}
+              <div className="col-span-1 lg:col-span-3 xl:col-span-1 mb-6 lg:mb-0">
                 <Card className="shadow-lg border-0 overflow-hidden">
                   <CardHeader className="bg-gradient-to-r from-green-50 to-emerald-50 border-b">
                     <div className="flex items-center">
@@ -220,15 +220,15 @@ export default function VerifyCard() {
                     </div>
                   </CardHeader>
                   <CardContent className="p-4 sm:p-6 flex justify-center">
-                    <div className="card-float-effect w-full">
-                      <FixedStudentCard student={carteirinha} miniVersion={true} />
+                    <div className="card-float-effect w-full max-w-sm mx-auto">
+                      <FixedStudentCard student={carteirinha} miniVersion={false} />
                     </div>
                   </CardContent>
                 </Card>
               </div>
               
               {/* Coluna Direita - Informações do estudante */}
-              <div className="lg:col-span-2">
+              <div className="col-span-1 xl:col-span-2">
                 <Card className="shadow-lg border-0 overflow-hidden">
                   <CardHeader className="bg-gradient-to-r from-gray-50 to-green-50/30 border-b">
                     <div className="flex items-center">
