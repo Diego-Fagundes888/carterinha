@@ -40,7 +40,7 @@ export default function FixedStudentCard({ student, example = false, miniVersion
                 <div className="bg-primary text-white text-xs font-bold py-1 px-2 sm:py-1.5 sm:px-3 rounded-full inline-flex items-center">
                   <BadgeCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1" /> ESTUDANTE
                 </div>
-                <h4 className="font-card font-bold text-sm sm:text-xl mt-1 sm:mt-2 tracking-wide text-foreground/90">
+                <h4 className="font-card font-bold text-sm sm:text-xl mt-1 sm:mt-2 tracking-wide text-foreground/90 break-words hyphens-auto max-w-[200px] sm:max-w-[240px]">
                   {student.instituicao || "UNIVERSIDADE EXEMPLO"}
                 </h4>
               </div>
