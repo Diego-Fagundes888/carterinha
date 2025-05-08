@@ -200,13 +200,13 @@ export default function CardDetails() {
           </div>
           
           {/* Card Container */}
-          <div className="flex flex-col items-center justify-center py-10 px-4">
-            <div className="w-[380px] h-[540px] mx-auto card-float-effect">
+          <div className="flex flex-col items-center justify-center py-6 sm:py-10 px-4">
+            <div className="w-full sm:w-auto mx-auto card-float-effect">
               <FixedStudentCard student={carteirinha} />
             </div>
             
             <motion.div 
-              className="mt-10 text-center max-w-md mx-auto bg-white shadow-md p-6 rounded-xl border border-primary/20"
+              className="mt-6 sm:mt-10 text-center w-full max-w-md mx-auto bg-white shadow-md p-4 sm:p-6 rounded-xl border border-primary/20"
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.3, duration: 0.5 }}

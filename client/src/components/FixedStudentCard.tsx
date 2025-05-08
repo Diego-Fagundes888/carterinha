@@ -27,30 +27,30 @@ export default function FixedStudentCard({ student, example = false, miniVersion
   };
 
   return (
-    <div className="card-container relative w-[380px] h-[540px]">
+    <div className={`card-container relative ${miniVersion ? 'w-full max-w-[300px] h-[420px]' : 'w-full max-w-[380px] h-[540px]'} mx-auto`}>
       <div 
         className={`card-3d ${isFlipped ? 'is-flipped' : ''}`}
         onClick={handleFlip}
       >
         <div className="card-face card-front shine-effect">
-          <div className="p-8 h-full flex flex-col">
+          <div className="p-4 sm:p-8 h-full flex flex-col">
             {/* Header */}
-            <div className="flex justify-between items-start mb-6">
+            <div className="flex justify-between items-start mb-4 sm:mb-6">
               <div>
-                <div className="bg-primary text-white text-xs font-bold py-1.5 px-3 rounded-full inline-flex items-center">
-                  <BadgeCheck className="w-3.5 h-3.5 mr-1" /> ESTUDANTE
+                <div className="bg-primary text-white text-xs font-bold py-1 px-2 sm:py-1.5 sm:px-3 rounded-full inline-flex items-center">
+                  <BadgeCheck className="w-3 h-3 sm:w-3.5 sm:h-3.5 mr-1" /> ESTUDANTE
                 </div>
-                <h4 className="font-card font-bold text-xl mt-2 tracking-wide text-foreground/90">UNIVERSIDADE EXEMPLO</h4>
+                <h4 className="font-card font-bold text-sm sm:text-xl mt-1 sm:mt-2 tracking-wide text-foreground/90">UNIVERSIDADE EXEMPLO</h4>
               </div>
-              <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20">
-                <School className="w-8 h-8 text-primary" />
+              <div className="w-12 h-12 sm:w-16 sm:h-16 bg-primary/10 rounded-full flex items-center justify-center border border-primary/20">
+                <School className="w-6 h-6 sm:w-8 sm:h-8 text-primary" />
               </div>
             </div>
             
             {/* Content - Student info */}
-            <div className="flex space-x-6 mb-8">
+            <div className="flex space-x-3 sm:space-x-6 mb-4 sm:mb-8">
               {/* Student photo */}
-              <div className="w-28 h-36 bg-background shadow-md rounded-xl overflow-hidden border border-border">
+              <div className="w-20 h-28 sm:w-28 sm:h-36 bg-background shadow-md rounded-xl overflow-hidden border border-border">
                 <img 
                   src={student.foto} 
                   alt="Foto do estudante" 
@@ -59,65 +59,65 @@ export default function FixedStudentCard({ student, example = false, miniVersion
               </div>
               
               {/* Student details */}
-              <div className="flex-1 space-y-3">
+              <div className="flex-1 space-y-2 sm:space-y-3">
                 <div>
-                  <div className="text-xs font-medium text-muted-foreground mb-1 flex items-center font-card">
-                    <User className="w-3 h-3 mr-1" /> NOME
+                  <div className="text-[10px] sm:text-xs font-medium text-muted-foreground mb-0.5 sm:mb-1 flex items-center font-card">
+                    <User className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1" /> NOME
                   </div>
-                  <div className="text-base font-bold font-card text-foreground">{student.nome}</div>
+                  <div className="text-sm sm:text-base font-bold font-card text-foreground">{student.nome}</div>
                 </div>
                 
                 <div>
-                  <div className="text-xs font-medium text-muted-foreground mb-1 flex items-center font-card">
-                    <FileText className="w-3 h-3 mr-1" /> MATRÍCULA
+                  <div className="text-[10px] sm:text-xs font-medium text-muted-foreground mb-0.5 sm:mb-1 flex items-center font-card">
+                    <FileText className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1" /> MATRÍCULA
                   </div>
-                  <div className="text-base font-bold font-card text-foreground">{student.matricula}</div>
+                  <div className="text-sm sm:text-base font-bold font-card text-foreground">{student.matricula}</div>
                 </div>
                 
                 <div>
-                  <div className="text-xs font-medium text-muted-foreground mb-1 flex items-center font-card">
-                    <GraduationCap className="w-3 h-3 mr-1" /> CURSO
+                  <div className="text-[10px] sm:text-xs font-medium text-muted-foreground mb-0.5 sm:mb-1 flex items-center font-card">
+                    <GraduationCap className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1" /> CURSO
                   </div>
-                  <div className="text-base font-bold font-card text-foreground">{student.curso}</div>
+                  <div className="text-sm sm:text-base font-bold font-card text-foreground">{student.curso}</div>
                 </div>
               </div>
             </div>
             
             {/* Additional info */}
-            <div className="grid grid-cols-2 gap-6 mb-8">
-              <div className="bg-accent/5 rounded-lg p-3 border border-border/50">
-                <div className="text-xs font-medium text-muted-foreground mb-1 flex items-center font-card">
-                  <Calendar className="w-3 h-3 mr-1" /> DATA DE NASCIMENTO
+            <div className="grid grid-cols-2 gap-2 sm:gap-6 mb-4 sm:mb-8">
+              <div className="bg-accent/5 rounded-lg p-2 sm:p-3 border border-border/50">
+                <div className="text-[10px] sm:text-xs font-medium text-muted-foreground mb-0.5 sm:mb-1 flex items-center font-card">
+                  <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1" /> DATA DE NASCIMENTO
                 </div>
-                <div className="text-sm font-bold font-card text-foreground">{formatDate(student.dataNascimento)}</div>
+                <div className="text-xs sm:text-sm font-bold font-card text-foreground">{formatDate(student.dataNascimento)}</div>
               </div>
-              <div className="bg-primary/5 rounded-lg p-3 border border-border/50">
-                <div className="text-xs font-medium text-muted-foreground mb-1 flex items-center font-card">
-                  <Calendar className="w-3 h-3 mr-1" /> VALIDADE
+              <div className="bg-primary/5 rounded-lg p-2 sm:p-3 border border-border/50">
+                <div className="text-[10px] sm:text-xs font-medium text-muted-foreground mb-0.5 sm:mb-1 flex items-center font-card">
+                  <Calendar className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1" /> VALIDADE
                 </div>
-                <div className="text-sm font-bold font-card text-foreground">{formatDate(student.validade)}</div>
+                <div className="text-xs sm:text-sm font-bold font-card text-foreground">{formatDate(student.validade)}</div>
               </div>
             </div>
             
             {/* Footer */}
             <div className="mt-auto flex justify-between items-end">
               <div>
-                <div className="text-xs font-medium text-muted-foreground mb-1 flex items-center font-card">
-                  <CreditCard className="w-3 h-3 mr-1" /> CPF
+                <div className="text-[10px] sm:text-xs font-medium text-muted-foreground mb-0.5 sm:mb-1 flex items-center font-card">
+                  <CreditCard className="w-2.5 h-2.5 sm:w-3 sm:h-3 mr-1" /> CPF
                 </div>
-                <div className="text-sm font-bold font-card text-foreground">{student.cpf}</div>
+                <div className="text-xs sm:text-sm font-bold font-card text-foreground">{student.cpf}</div>
               </div>
               
               {/* QR Code */}
-              <div className="w-24 h-24 bg-white shadow-sm rounded-lg p-2 border border-border/50 flex items-center justify-center">
+              <div className="w-20 h-20 sm:w-24 sm:h-24 bg-white shadow-sm rounded-lg p-2 border border-border/50 flex items-center justify-center">
                 {example ? (
                   <div className="w-full h-full flex items-center justify-center bg-gray-50">
-                    <span className="material-icons text-muted-foreground text-4xl">qr_code_2</span>
+                    <span className="material-icons text-muted-foreground text-3xl sm:text-4xl">qr_code_2</span>
                   </div>
                 ) : (
                   <QRCodeSVG
                     value={verificationUrl}
-                    size={80}
+                    size={miniVersion ? 60 : 80}
                     level="H"
                     includeMargin={false}
                     bgColor="#FFFFFF"
@@ -127,30 +127,30 @@ export default function FixedStudentCard({ student, example = false, miniVersion
               </div>
             </div>
             
-            <div className="text-xs text-center text-muted-foreground mt-6 absolute bottom-2 left-0 right-0">
+            <div className="text-[10px] sm:text-xs text-center text-muted-foreground mt-4 sm:mt-6 absolute bottom-1 sm:bottom-2 left-0 right-0">
               Toque no cartão para ver o verso
             </div>
           </div>
         </div>
         
         <div className="card-face card-back shine-effect">
-          <div className="p-8 h-full flex flex-col bg-white">
+          <div className="p-4 sm:p-8 h-full flex flex-col bg-white">
             {/* Header */}
-            <div className="bg-gradient-to-r from-primary to-accent py-4 px-4 text-white text-center mb-6 rounded-lg">
-              <h4 className="font-card font-bold tracking-wide text-lg">VERIFICAÇÃO DIGITAL</h4>
+            <div className="bg-gradient-to-r from-primary to-accent py-3 px-3 sm:py-4 sm:px-4 text-white text-center mb-4 sm:mb-6 rounded-lg">
+              <h4 className="font-card font-bold tracking-wide text-base sm:text-lg">VERIFICAÇÃO DIGITAL</h4>
             </div>
             
             <div className="flex-1 flex flex-col items-center justify-center">
               {/* QR Code Grande */}
-              <div className="w-64 h-64 bg-white p-4 rounded-xl border-2 border-primary/20 shadow-lg flex items-center justify-center mb-4">
+              <div className={`${miniVersion ? 'w-48 h-48' : 'w-56 h-56 sm:w-64 sm:h-64'} bg-white p-2 sm:p-4 rounded-xl border-2 border-primary/20 shadow-lg flex items-center justify-center mb-3 sm:mb-4`}>
                 {example ? (
                   <div className="w-full h-full flex items-center justify-center bg-gray-50">
-                    <span className="material-icons text-muted-foreground text-7xl">qr_code_2</span>
+                    <span className="material-icons text-muted-foreground text-5xl sm:text-7xl">qr_code_2</span>
                   </div>
                 ) : (
                   <QRCodeSVG
                     value={verificationUrl}
-                    size={230}
+                    size={miniVersion ? 170 : 210}
                     level="H"
                     includeMargin={true}
                     bgColor="#FFFFFF"
@@ -159,15 +159,15 @@ export default function FixedStudentCard({ student, example = false, miniVersion
                 )}
               </div>
               
-              <div className="text-center mb-4">
-                <div className="text-sm font-medium text-gray-900 mb-1">
+              <div className="text-center mb-3 sm:mb-4">
+                <div className="text-xs sm:text-sm font-medium text-gray-900 mb-1">
                   Escaneie este código para verificar a autenticidade
                 </div>
-                <div className="text-xs text-primary">{verificationUrl}</div>
+                <div className="text-[10px] sm:text-xs text-primary break-all px-2">{verificationUrl}</div>
               </div>
             </div>
             
-            <div className="text-xs text-center text-muted-foreground mt-6 absolute bottom-2 left-0 right-0">
+            <div className="text-[10px] sm:text-xs text-center text-muted-foreground mt-4 sm:mt-6 absolute bottom-1 sm:bottom-2 left-0 right-0">
               Toque no cartão para ver a frente
             </div>
           </div>

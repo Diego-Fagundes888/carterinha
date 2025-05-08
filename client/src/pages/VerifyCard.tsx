@@ -114,15 +114,15 @@ export default function VerifyCard() {
             className="relative"
           >
             <div className="flex flex-wrap items-center justify-between">
-              <div className="max-w-xl mb-6 md:mb-0">
-                <h1 className="text-2xl md:text-3xl font-bold tracking-tight mb-2">
+              <div className="w-full lg:max-w-xl mb-6 lg:mb-0">
+                <h1 className="text-xl sm:text-2xl md:text-3xl font-bold tracking-tight mb-2">
                   {isValidAndActive ? (
                     <>Sistema de Verificação de Carteirinha</>
                   ) : (
                     <>Verificação de Carteirinha</>
                   )}
                 </h1>
-                <p className="text-white/80 text-base max-w-xl">
+                <p className="text-white/80 text-sm sm:text-base max-w-xl">
                   {isValidAndActive ? (
                     <>Este sistema verifica a autenticidade de carteirinhas estudantis. Esta carteirinha foi verificada e é autêntica.</>
                   ) : (
@@ -131,29 +131,29 @@ export default function VerifyCard() {
                 </p>
               </div>
               
-              <div className="flex items-center space-x-4">
+              <div className="flex items-center space-x-2 sm:space-x-4 mt-2 lg:mt-0">
                 <Link href="/">
                   <Button 
                     size="sm"
                     variant="secondary" 
-                    className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-0"
+                    className="bg-white/20 backdrop-blur-sm hover:bg-white/30 text-white border-0 text-xs sm:text-sm"
                   >
-                    <ArrowLeft className="w-4 h-4 mr-1" />
+                    <ArrowLeft className="w-3 h-3 sm:w-4 sm:h-4 mr-1" />
                     Página Inicial
                   </Button>
                 </Link>
                 
                 <div 
-                  className={`w-16 h-16 rounded-full flex items-center justify-center ${
+                  className={`w-12 h-12 sm:w-16 sm:h-16 rounded-full flex items-center justify-center ${
                     isValidAndActive 
                       ? 'bg-green-500/30' 
                       : 'bg-red-500/30'
                   }`}
                 >
                   {isValidAndActive ? (
-                    <ShieldCheck className="h-8 w-8" />
+                    <ShieldCheck className="h-6 w-6 sm:h-8 sm:w-8" />
                   ) : (
-                    <ShieldX className="h-8 w-8" />
+                    <ShieldX className="h-6 w-6 sm:h-8 sm:w-8" />
                   )}
                 </div>
               </div>
@@ -219,9 +219,9 @@ export default function VerifyCard() {
                       </div>
                     </div>
                   </CardHeader>
-                  <CardContent className="p-6 flex justify-center">
-                    <div className="card-float-effect">
-                      <FixedStudentCard student={carteirinha} />
+                  <CardContent className="p-4 sm:p-6 flex justify-center">
+                    <div className="card-float-effect w-full">
+                      <FixedStudentCard student={carteirinha} miniVersion={true} />
                     </div>
                   </CardContent>
                 </Card>
