@@ -26,7 +26,8 @@ import {
   User, 
   PlusCircle,
   GraduationCap,
-  FileSearch
+  FileSearch,
+  CheckCircle2
 } from 'lucide-react';
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { cn } from '@/lib/utils';
@@ -189,7 +190,7 @@ export default function Admin() {
     return {
       label: "Válida",
       className: "bg-green-100 text-green-800",
-      icon: <CheckCircle className="w-3 h-3 mr-1 text-green-700" />
+      icon: <CheckCircle2 className="w-3 h-3 mr-1 text-green-700" />
     };
   };
   
