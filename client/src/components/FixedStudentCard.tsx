@@ -27,9 +27,9 @@ export default function FixedStudentCard({ student, example = false, miniVersion
   };
 
   return (
-    <div className={`card-container ${miniVersion ? 'w-full max-w-[300px] h-[500px]' : 'w-full max-w-[400px] h-[600px]'} mx-auto`}>
+    <div className={`card-container ${miniVersion ? 'w-full max-w-[300px] h-[600px]' : 'w-full max-w-[400px] h-[650px]'} mx-auto flex items-center justify-center`}>
       <div 
-        className={`card-3d ${isFlipped ? 'is-flipped' : ''}`}
+        className={`card-3d ${isFlipped ? 'is-flipped' : ''} w-full h-full`}
         onClick={handleFlip}
       >
         <div className="card-face card-front shine-effect">
@@ -140,9 +140,9 @@ export default function FixedStudentCard({ student, example = false, miniVersion
               <h4 className="font-card font-bold tracking-wide text-base sm:text-lg">VERIFICAÇÃO DIGITAL</h4>
             </div>
             
-            <div className="flex-1 flex flex-col items-center justify-center">
-              {/* QR Code Grande - Centralizado */}
-              <div className={`${miniVersion ? 'w-[90%] h-auto aspect-square' : 'w-60 h-60 sm:w-64 sm:h-64'} mx-auto bg-white p-2 sm:p-3 rounded-xl border-2 border-primary/20 shadow-lg flex items-center justify-center mb-3 sm:mb-4`}>
+            <div className="flex-1 flex flex-col items-center justify-center pt-12">
+              {/* QR Code Grande - Centralizado em posição fixa */}
+              <div className={`${miniVersion ? 'w-[90%] h-auto aspect-square' : 'w-64 h-64'} mx-auto bg-white p-2 rounded-xl border-2 border-primary/20 shadow-lg flex items-center justify-center`}>
                 {example ? (
                   <div className="w-full h-full flex items-center justify-center bg-gray-50">
                     <span className="material-icons text-muted-foreground text-5xl sm:text-7xl">qr_code_2</span>
@@ -159,11 +159,11 @@ export default function FixedStudentCard({ student, example = false, miniVersion
                 )}
               </div>
               
-              <div className="text-center mb-3 sm:mb-4">
+              <div className="text-center mt-6">
                 <div className="text-xs sm:text-sm font-medium text-gray-900 mb-1">
                   Escaneie este código para verificar a autenticidade
                 </div>
-                <div className="text-[10px] sm:text-xs text-primary break-all px-2">{verificationUrl}</div>
+                <div className="text-[10px] sm:text-xs text-primary break-all px-2 max-w-xs">{verificationUrl}</div>
               </div>
             </div>
             
