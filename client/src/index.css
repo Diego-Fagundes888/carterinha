@@ -154,6 +154,17 @@
     );
     background-size: var(--grid-size) var(--grid-size);
   }
+}
+
+@layer utilities {
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  
+  .no-scrollbar {
+    -ms-overflow-style: none;  /* IE and Edge */
+    scrollbar-width: none;  /* Firefox */
+  }
 
   .bg-grid-white\/10 {
     -webkit-mask-image: linear-gradient(to bottom, transparent, rgba(0, 0, 0, 1.0) 10%, rgba(0, 0, 0, 1.0) 90%, transparent);

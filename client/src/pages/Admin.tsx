@@ -317,16 +317,18 @@ export default function Admin() {
               onValueChange={handleChangeTab}
               className="w-full"
             >
-              <div className="flex flex-wrap items-center justify-between">
-                <TabsList className="mb-2 sm:mb-0">
-                  <TabsTrigger value="todos" className="px-4">Todos</TabsTrigger>
-                  <TabsTrigger value="valid" className="px-4">Válidas</TabsTrigger>
-                  <TabsTrigger value="expiring" className="px-4">Expirando</TabsTrigger>
-                  <TabsTrigger value="expired" className="px-4">Expiradas</TabsTrigger>
-                </TabsList>
+              <div className="flex flex-col sm:flex-row sm:items-center gap-y-4 gap-x-4 w-full">
+                <div className="w-full overflow-auto pb-1 no-scrollbar"> 
+                  <TabsList className="w-full sm:w-auto">
+                    <TabsTrigger value="todos" className="px-3 sm:px-4 text-xs sm:text-sm">Todos</TabsTrigger>
+                    <TabsTrigger value="valid" className="px-3 sm:px-4 text-xs sm:text-sm">Válidas</TabsTrigger>
+                    <TabsTrigger value="expiring" className="px-3 sm:px-4 text-xs sm:text-sm whitespace-nowrap">Expirando</TabsTrigger>
+                    <TabsTrigger value="expired" className="px-3 sm:px-4 text-xs sm:text-sm">Expiradas</TabsTrigger>
+                  </TabsList>
+                </div>
                 
-                <div className="flex space-x-2">
-                  <div className="relative w-full sm:w-64">
+                <div className="flex flex-wrap gap-2 sm:ml-auto">
+                  <div className="relative flex-1 sm:w-64 sm:flex-none">
                     <Search className="absolute left-2.5 top-2.5 h-4 w-4 text-muted-foreground" />
                     <Input
                       placeholder="Buscar por nome..."
@@ -340,7 +342,7 @@ export default function Admin() {
                     variant="outline" 
                     size="icon"
                     onClick={() => setIsFiltersVisible(!isFiltersVisible)}
-                    className={cn(isFiltersVisible && "border-primary text-primary")}
+                    className={cn(isFiltersVisible && "border-primary text-primary", "h-10 w-10 flex-shrink-0")}
                   >
                     <Filter className="h-4 w-4" />
                   </Button>
@@ -350,7 +352,7 @@ export default function Admin() {
                       variant="ghost" 
                       size="sm"
                       onClick={clearFilters}
-                      className="text-xs"
+                      className="text-xs h-10 flex-shrink-0"
                     >
                       Limpar filtros
                     </Button>
