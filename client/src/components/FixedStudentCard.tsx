@@ -133,7 +133,7 @@ export default function FixedStudentCard({ student, example = false, miniVersion
           </div>
         </div>
         
-        <div className="card-face card-back shine-effect">
+        <div className="card-face card-back shine-effect" style={{ top: '0', left: '0' }}>
           <div className="p-4 sm:p-8 h-full flex flex-col bg-white">
             {/* Header */}
             <div className="bg-gradient-to-r from-primary to-accent py-3 px-3 sm:py-4 sm:px-4 text-white text-center mb-4 sm:mb-6 rounded-lg">
@@ -142,7 +142,7 @@ export default function FixedStudentCard({ student, example = false, miniVersion
             
             <div className="flex-1 flex flex-col items-center justify-center pt-12">
               {/* QR Code Grande - Centralizado em posição fixa */}
-              <div className={`${miniVersion ? 'w-[90%] h-auto aspect-square' : 'w-64 h-64'} mx-auto bg-white p-2 rounded-xl border-2 border-primary/20 shadow-lg flex items-center justify-center`}>
+              <div className={`${miniVersion ? 'w-[90%] h-auto aspect-square' : 'w-64 h-64'} mx-auto bg-white p-2 rounded-xl border-2 border-primary/20 shadow-lg flex items-center justify-center relative z-10`}>
                 {example ? (
                   <div className="w-full h-full flex items-center justify-center bg-gray-50">
                     <span className="material-icons text-muted-foreground text-5xl sm:text-7xl">qr_code_2</span>
