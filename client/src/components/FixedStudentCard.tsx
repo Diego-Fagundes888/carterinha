@@ -109,7 +109,7 @@ export default function FixedStudentCard({ student, example = false, miniVersion
               
             {/* QR Code - Centralizado */}
             <div className="flex justify-center w-full mb-2">
-              <div className="w-28 h-28 sm:w-32 sm:h-32 bg-white shadow-md rounded-lg p-2 border border-primary/20 flex items-center justify-center mx-auto">
+              <div className="w-28 h-28 sm:w-36 sm:h-36 bg-white shadow-md rounded-lg p-2 border border-primary/20 flex items-center justify-center mx-auto">
                 {example ? (
                   <div className="w-full h-full flex items-center justify-center bg-gray-50">
                     <span className="material-icons text-muted-foreground text-4xl sm:text-5xl">qr_code_2</span>
@@ -117,7 +117,7 @@ export default function FixedStudentCard({ student, example = false, miniVersion
                 ) : (
                   <QRCodeSVG
                     value={verificationUrl}
-                    size={miniVersion ? 90 : 110}
+                    size={miniVersion ? 90 : 120}
                     level="H"
                     includeMargin={false}
                     bgColor="#FFFFFF"

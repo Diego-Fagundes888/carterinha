@@ -242,15 +242,15 @@ export default function AdminCardDetails() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Coluna Esquerda - Carteirinha */}
         <div className="lg:col-span-1 space-y-6">
-          <Card className="border-0 shadow-lg overflow-hidden p-0">
+          <Card className="border-0 shadow-lg overflow-visible p-0">
             <CardHeader className="bg-gradient-to-r from-primary/90 to-accent/90 text-white py-4 px-6">
               <CardTitle className="text-lg flex items-center">
                 <FileText className="w-5 h-5 mr-2" />
                 Visualização da Carteirinha
               </CardTitle>
             </CardHeader>
-            <CardContent className="p-6 flex justify-center">
-              <div className="card-float-effect">
+            <CardContent className="p-4 sm:p-6 flex justify-center">
+              <div className="card-float-effect w-full">
                 <FixedStudentCard student={carteirinha} />
               </div>
             </CardContent>
