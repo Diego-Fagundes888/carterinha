@@ -3,7 +3,7 @@ import { useParams, Link } from 'wouter';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
-import FixedStudentCard from '@/components/FixedStudentCard';
+import SimpleStudentCard from '@/components/SimpleStudentCard';
 import DeleteConfirmationDialog from '@/components/DeleteConfirmationDialog';
 import { useState } from 'react';
 import { apiRequest } from '@/lib/queryClient';
@@ -251,7 +251,7 @@ export default function AdminCardDetails() {
             </CardHeader>
             <CardContent className="p-4 sm:p-6 flex justify-center">
               <div className="card-float-effect w-full">
-                <FixedStudentCard student={carteirinha} />
+                <SimpleStudentCard student={carteirinha} />
               </div>
             </CardContent>
           </Card>
